@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-15T14:33:19.514Z",
+  "updatedAt": "2026-11-15T18:33:21.686Z",
   "users": {
     "urabhay10": {
       "name": "Abhay Upadhyay",
@@ -648,7 +648,7 @@
       "totalSolved": 9,
       "currentStreak": 7,
       "longestStreak": 7,
-      "solvedToday": 1,
+      "solvedToday": 0,
       "solvedBySlot": [
         7,
         1,
@@ -660,7 +660,7 @@
       "lastSolvedDate": "2026-11-15",
       "points": 8400,
       "lastCompletedAt": "2026-11-14T20:53:48.000Z",
-      "todayCompletedAt": "2026-11-14T20:53:48.000Z"
+      "todayCompletedAt": null
     },
     "yashsd9911": {
       "name": "Yash Deshmukh",
@@ -1186,7 +1186,7 @@
       "totalSolved": 5,
       "currentStreak": 2,
       "longestStreak": 2,
-      "solvedToday": 3,
+      "solvedToday": 0,
       "solvedBySlot": [
         1,
         2,
@@ -1198,7 +1198,7 @@
       "lastSolvedDate": "2026-11-15",
       "points": 6100,
       "lastCompletedAt": "2026-11-15T13:49:14.000Z",
-      "todayCompletedAt": "2026-11-15T13:49:14.000Z"
+      "todayCompletedAt": null
     },
     "pandeypranshu201": {
       "name": "Pranshu Pandey",
@@ -1214,7 +1214,7 @@
         ]
       },
       "totalSolved": 1,
-      "currentStreak": 1,
+      "currentStreak": 0,
       "longestStreak": 1,
       "solvedToday": 0,
       "solvedBySlot": [
@@ -1328,7 +1328,7 @@
       },
       "lateSolves": {},
       "totalSolved": 1,
-      "currentStreak": 1,
+      "currentStreak": 0,
       "longestStreak": 1,
       "solvedToday": 0,
       "solvedBySlot": [
@@ -1750,7 +1750,7 @@
       },
       "lateSolves": {},
       "totalSolved": 1,
-      "currentStreak": 1,
+      "currentStreak": 0,
       "longestStreak": 1,
       "solvedToday": 0,
       "solvedBySlot": [
@@ -1908,7 +1908,7 @@
       },
       "lateSolves": {},
       "totalSolved": 1,
-      "currentStreak": 1,
+      "currentStreak": 0,
       "longestStreak": 1,
       "solvedToday": 0,
       "solvedBySlot": [
