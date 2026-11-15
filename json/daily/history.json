@@ -536,5 +536,77 @@
         "url": "https://codeforces.com/problemset/problem/600/C"
       }
     ]
+  },
+  {
+    "date": "2026-11-16",
+    "problems": [
+      {
+        "slot": 1,
+        "id": "746B",
+        "name": "Decoding",
+        "rating": 900,
+        "tags": [
+          "implementation",
+          "strings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/746/B"
+      },
+      {
+        "slot": 2,
+        "id": "363B",
+        "name": "Fence",
+        "rating": 1100,
+        "tags": [
+          "brute force",
+          "dp"
+        ],
+        "url": "https://codeforces.com/problemset/problem/363/B"
+      },
+      {
+        "slot": 3,
+        "id": "352B",
+        "name": "Jeff and Periods",
+        "rating": 1300,
+        "tags": [
+          "implementation",
+          "sortings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/352/B"
+      },
+      {
+        "slot": 4,
+        "id": "1698D",
+        "name": "Fixed Point Guessing",
+        "rating": 1600,
+        "tags": [
+          "binary search",
+          "constructive algorithms",
+          "interactive"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1698/D"
+      },
+      {
+        "slot": 5,
+        "id": "1250J",
+        "name": "The Parade",
+        "rating": 1800,
+        "tags": [
+          "binary search",
+          "greedy"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1250/J"
+      },
+      {
+        "slot": 6,
+        "id": "1861D",
+        "name": "Sorting By Multiplication",
+        "rating": 1800,
+        "tags": [
+          "dp",
+          "greedy"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1861/D"
+      }
+    ]
   }
 ]
