@@ -608,5 +608,80 @@
         "url": "https://codeforces.com/problemset/problem/1861/D"
       }
     ]
+  },
+  {
+    "date": "2026-11-17",
+    "problems": [
+      {
+        "slot": 1,
+        "id": "1914A",
+        "name": "Problemsolving Log",
+        "rating": 800,
+        "tags": [
+          "implementation",
+          "strings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1914/A"
+      },
+      {
+        "slot": 2,
+        "id": "1941B",
+        "name": "Rudolf and 121",
+        "rating": 1000,
+        "tags": [
+          "brute force",
+          "dp",
+          "greedy",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1941/B"
+      },
+      {
+        "slot": 3,
+        "id": "1408B",
+        "name": "Arrays Sum",
+        "rating": 1400,
+        "tags": [
+          "constructive algorithms",
+          "greedy",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1408/B"
+      },
+      {
+        "slot": 4,
+        "id": "350C",
+        "name": "Bombs",
+        "rating": 1600,
+        "tags": [
+          "greedy",
+          "implementation",
+          "sortings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/350/C"
+      },
+      {
+        "slot": 5,
+        "id": "1015D",
+        "name": "Walking Between Houses",
+        "rating": 1600,
+        "tags": [
+          "constructive algorithms",
+          "greedy"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1015/D"
+      },
+      {
+        "slot": 6,
+        "id": "986B",
+        "name": "Petr and Permutations",
+        "rating": 1800,
+        "tags": [
+          "combinatorics",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/986/B"
+      }
+    ]
   }
 ]
