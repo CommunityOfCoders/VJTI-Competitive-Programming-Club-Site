@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-15T18:33:21.686Z",
+  "updatedAt": "2026-11-16T12:33:29.701Z",
   "users": {
     "urabhay10": {
       "name": "Abhay Upadhyay",
@@ -112,7 +112,7 @@
       "todayCompletedAt": null
     },
     "nilanshuranjan11": {
-      "name": "Nilanshu Ranjan",
+      "name": "NIlanshu Ranjan",
       "cfHandle": "Nilanshu_Ranjan_101",
       "solves": {},
       "lateSolves": {},
@@ -332,7 +332,7 @@
       "todayCompletedAt": null
     },
     "sakshikalunge07": {
-      "name": "Sakshi Kalunge",
+      "name": "Sakshi Kalunge ",
       "cfHandle": "sakshi_kalunge",
       "solves": {},
       "lateSolves": {},
@@ -376,7 +376,7 @@
       "todayCompletedAt": null
     },
     "shubham885577531": {
-      "name": "Shubham Patil",
+      "name": "Shubham Ashok Patil ",
       "cfHandle": "dudpatil07",
       "solves": {},
       "lateSolves": {},
@@ -420,7 +420,7 @@
       "todayCompletedAt": null
     },
     "yadavhim1": {
-      "name": "Himanshu Yadav",
+      "name": "Himanshu Singh Yadav ",
       "cfHandle": "itss_himanshu",
       "solves": {},
       "lateSolves": {},
@@ -442,7 +442,7 @@
       "todayCompletedAt": null
     },
     "awwab_wadekar": {
-      "name": "Awwab Wadekar",
+      "name": "Awwab Sajid Wadekar",
       "cfHandle": "Awwab_coder123",
       "solves": {
         "2026-11-09": [
@@ -516,7 +516,7 @@
       "todayCompletedAt": null
     },
     "kavishnasta": {
-      "name": "Kavish Nasta",
+      "name": "Kavish Nasta ",
       "cfHandle": "kavishnasta",
       "solves": {},
       "lateSolves": {},
@@ -663,7 +663,7 @@
       "todayCompletedAt": null
     },
     "yashsd9911": {
-      "name": "Yash Deshmukh",
+      "name": "Yash Sunil Deshmukh",
       "cfHandle": "yashsd9911",
       "solves": {},
       "lateSolves": {},
@@ -707,7 +707,7 @@
       "todayCompletedAt": null
     },
     "vedanttamhaneka1": {
-      "name": "Vedant Tamhanekar",
+      "name": "Vedant Tamhanekar ",
       "cfHandle": "Vedrastic_3517",
       "solves": {},
       "lateSolves": {},
@@ -751,7 +751,7 @@
       "todayCompletedAt": null
     },
     "jaypatil2415": {
-      "name": "Jay Patil",
+      "name": "Jay Patil ",
       "cfHandle": "jay_patil",
       "solves": {},
       "lateSolves": {},
@@ -773,7 +773,7 @@
       "todayCompletedAt": null
     },
     "shreyamane1526": {
-      "name": "Shreya Mane",
+      "name": "Shreya Vijay Mane",
       "cfHandle": "shreyamane",
       "solves": {},
       "lateSolves": {},
@@ -839,7 +839,7 @@
       "todayCompletedAt": null
     },
     "sarangmeshte29": {
-      "name": "Sarang Meshte",
+      "name": "Sarang Santosh Meshte",
       "cfHandle": "sarang29",
       "solves": {},
       "lateSolves": {},
@@ -905,7 +905,7 @@
       "todayCompletedAt": null
     },
     "sawantbianca": {
-      "name": "Bianca Sawant",
+      "name": "Bianca A. Sawant",
       "cfHandle": "sawantbianca",
       "solves": {},
       "lateSolves": {},
@@ -949,7 +949,7 @@
       "todayCompletedAt": null
     },
     "janhaviamahajan1": {
-      "name": "Janhavi Mahajan",
+      "name": "Janhavi Atul Mahajan ",
       "cfHandle": "janhaviamahajan07",
       "solves": {},
       "lateSolves": {},
@@ -1037,7 +1037,7 @@
       "todayCompletedAt": null
     },
     "sanvi_naik0103": {
-      "name": "Sanvi Naik",
+      "name": "Sanvi Abhijit Naik",
       "cfHandle": "sanvinaik",
       "solves": {},
       "lateSolves": {},
@@ -1081,7 +1081,7 @@
       "todayCompletedAt": null
     },
     "hedayatimohd": {
-      "name": "Mohammed Hedayati",
+      "name": "Mohammed Mehdi Hedayati",
       "cfHandle": "hedayatimohd",
       "solves": {},
       "lateSolves": {},
@@ -1147,7 +1147,7 @@
       "todayCompletedAt": null
     },
     "kudalkarhishant": {
-      "name": "Hishant Kudalkar",
+      "name": "Hishant Rupesh Kudalkar",
       "cfHandle": "kudalkarhishant",
       "solves": {},
       "lateSolves": {},
@@ -1180,25 +1180,28 @@
           "221B",
           "1294D",
           "402A"
+        ],
+        "2026-11-16": [
+          "352B"
         ]
       },
       "lateSolves": {},
-      "totalSolved": 5,
-      "currentStreak": 2,
-      "longestStreak": 2,
-      "solvedToday": 0,
+      "totalSolved": 6,
+      "currentStreak": 3,
+      "longestStreak": 3,
+      "solvedToday": 1,
       "solvedBySlot": [
         1,
         2,
-        1,
+        2,
         1,
         0,
         0
       ],
-      "lastSolvedDate": "2026-11-15",
-      "points": 6100,
-      "lastCompletedAt": "2026-11-15T13:49:14.000Z",
-      "todayCompletedAt": null
+      "lastSolvedDate": "2026-11-16",
+      "points": 7400,
+      "lastCompletedAt": "2026-11-16T12:30:18.000Z",
+      "todayCompletedAt": "2026-11-16T12:30:18.000Z"
     },
     "pandeypranshu201": {
       "name": "Pranshu Pandey",
@@ -1319,7 +1322,7 @@
       "todayCompletedAt": null
     },
     "nayakkedar2008": {
-      "name": "Kedar Nayak",
+      "name": "Kedar Damodar Nayak",
       "cfHandle": "nayakkedar2008",
       "solves": {
         "2026-11-14": [
@@ -1411,7 +1414,7 @@
       "todayCompletedAt": null
     },
     "TheFool_": {
-      "name": "Soham Margaj",
+      "name": "Soham Sunil Margaj",
       "cfHandle": "sohammargaj55555",
       "solves": {},
       "lateSolves": {},
@@ -1543,7 +1546,7 @@
       "todayCompletedAt": null
     },
     "sohamk8c2220": {
-      "name": "Soham Kharatmal",
+      "name": "Soham Dattu Kharatmal",
       "cfHandle": "Sohaaam",
       "solves": {},
       "lateSolves": {},
@@ -1719,7 +1722,7 @@
       "todayCompletedAt": null
     },
     "vanshvora_cpp": {
-      "name": "Vansh Vora",
+      "name": "Vansh vora",
       "cfHandle": "Vanshvora_",
       "solves": {},
       "lateSolves": {},
@@ -1741,7 +1744,7 @@
       "todayCompletedAt": null
     },
     "aanavare_b26": {
-      "name": "Aditya Navare",
+      "name": "Aditya Anand Navare",
       "cfHandle": "QuantAdi",
       "solves": {
         "2026-11-14": [
@@ -1855,7 +1858,7 @@
       "todayCompletedAt": null
     },
     "rohitpawar6459": {
-      "name": "Rohit Pawar",
+      "name": "Rohit Sanjay Pawar",
       "cfHandle": "Rohit1405",
       "solves": {},
       "lateSolves": {},
@@ -1927,6 +1930,28 @@
     "onkarraskar030": {
       "name": "Onkar Raskar",
       "cfHandle": "onkar_2502",
+      "solves": {},
+      "lateSolves": {},
+      "totalSolved": 0,
+      "currentStreak": 0,
+      "longestStreak": 0,
+      "solvedToday": 0,
+      "solvedBySlot": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "lastSolvedDate": null,
+      "points": 0,
+      "lastCompletedAt": null,
+      "todayCompletedAt": null
+    },
+    "sahilphad07": {
+      "name": "Sahil Phad",
+      "cfHandle": "sahil_phad",
       "solves": {},
       "lateSolves": {},
       "totalSolved": 0,
