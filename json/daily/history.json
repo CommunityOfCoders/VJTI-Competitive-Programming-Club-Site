@@ -683,5 +683,81 @@
         "url": "https://codeforces.com/problemset/problem/986/B"
       }
     ]
+  },
+  {
+    "date": "2026-11-18",
+    "problems": [
+      {
+        "slot": 1,
+        "id": "2057A",
+        "name": "MEX Table",
+        "rating": 800,
+        "tags": [
+          "constructive algorithms",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2057/A"
+      },
+      {
+        "slot": 2,
+        "id": "230A",
+        "name": "Dragons",
+        "rating": 1000,
+        "tags": [
+          "greedy",
+          "sortings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/230/A"
+      },
+      {
+        "slot": 3,
+        "id": "955B",
+        "name": "Not simply beatiful strings",
+        "rating": 1400,
+        "tags": [
+          "implementation"
+        ],
+        "url": "https://codeforces.com/problemset/problem/955/B"
+      },
+      {
+        "slot": 4,
+        "id": "1437D",
+        "name": "Minimal Height Tree",
+        "rating": 1600,
+        "tags": [
+          "graphs",
+          "greedy",
+          "shortest paths",
+          "trees"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1437/D"
+      },
+      {
+        "slot": 5,
+        "id": "1478C",
+        "name": "Nezzar and Symmetric Array",
+        "rating": 1700,
+        "tags": [
+          "implementation",
+          "math",
+          "sortings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1478/C"
+      },
+      {
+        "slot": 6,
+        "id": "1200D",
+        "name": "White Lines",
+        "rating": 1900,
+        "tags": [
+          "brute force",
+          "data structures",
+          "dp",
+          "implementation",
+          "two pointers"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1200/D"
+      }
+    ]
   }
 ]
