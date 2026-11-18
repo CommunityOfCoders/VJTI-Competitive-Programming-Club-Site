@@ -759,5 +759,79 @@
         "url": "https://codeforces.com/problemset/problem/1200/D"
       }
     ]
+  },
+  {
+    "date": "2026-11-19",
+    "problems": [
+      {
+        "slot": 1,
+        "id": "975A",
+        "name": "Aramic script",
+        "rating": 900,
+        "tags": [
+          "implementation",
+          "strings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/975/A"
+      },
+      {
+        "slot": 2,
+        "id": "478A",
+        "name": "Initial Bet",
+        "rating": 1100,
+        "tags": [
+          "implementation"
+        ],
+        "url": "https://codeforces.com/problemset/problem/478/A"
+      },
+      {
+        "slot": 3,
+        "id": "1006C",
+        "name": "Three Parts of the Array",
+        "rating": 1200,
+        "tags": [
+          "binary search",
+          "data structures",
+          "two pointers"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1006/C"
+      },
+      {
+        "slot": 4,
+        "id": "689A",
+        "name": "Mike and Cellphone",
+        "rating": 1400,
+        "tags": [
+          "brute force",
+          "constructive algorithms",
+          "implementation"
+        ],
+        "url": "https://codeforces.com/problemset/problem/689/A"
+      },
+      {
+        "slot": 5,
+        "id": "626C",
+        "name": "Block Towers",
+        "rating": 1600,
+        "tags": [
+          "brute force",
+          "greedy",
+          "math",
+          "number theory"
+        ],
+        "url": "https://codeforces.com/problemset/problem/626/C"
+      },
+      {
+        "slot": 6,
+        "id": "926E",
+        "name": "Merge Equal Elements",
+        "rating": 1900,
+        "tags": [
+          "constructive algorithms",
+          "data structures"
+        ],
+        "url": "https://codeforces.com/problemset/problem/926/E"
+      }
+    ]
   }
 ]
