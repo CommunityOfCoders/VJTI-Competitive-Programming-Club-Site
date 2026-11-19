@@ -833,5 +833,85 @@
         "url": "https://codeforces.com/problemset/problem/926/E"
       }
     ]
+  },
+  {
+    "date": "2026-11-20",
+    "problems": [
+      {
+        "slot": 1,
+        "id": "903A",
+        "name": "Hungry Student Problem",
+        "rating": 900,
+        "tags": [
+          "greedy",
+          "implementation"
+        ],
+        "url": "https://codeforces.com/problemset/problem/903/A"
+      },
+      {
+        "slot": 2,
+        "id": "1008B",
+        "name": "Turn the Rectangles",
+        "rating": 1000,
+        "tags": [
+          "greedy",
+          "sortings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1008/B"
+      },
+      {
+        "slot": 3,
+        "id": "1108D",
+        "name": "Diverse Garland",
+        "rating": 1400,
+        "tags": [
+          "constructive algorithms",
+          "dp",
+          "greedy"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1108/D"
+      },
+      {
+        "slot": 4,
+        "id": "2181B",
+        "name": "Battle of Arrays",
+        "rating": 1400,
+        "tags": [
+          "data structures",
+          "games",
+          "greedy"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2181/B"
+      },
+      {
+        "slot": 5,
+        "id": "1946C",
+        "name": "Tree Cutting",
+        "rating": 1600,
+        "tags": [
+          "binary search",
+          "dp",
+          "greedy",
+          "implementation",
+          "trees"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1946/C"
+      },
+      {
+        "slot": 6,
+        "id": "2053E",
+        "name": "Resourceful Caterpillar Sequence",
+        "rating": 1900,
+        "tags": [
+          "dfs and similar",
+          "dp",
+          "games",
+          "graphs",
+          "greedy",
+          "trees"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2053/E"
+      }
+    ]
   }
 ]
