@@ -913,5 +913,82 @@
         "url": "https://codeforces.com/problemset/problem/2053/E"
       }
     ]
+  },
+  {
+    "date": "2026-11-21",
+    "problems": [
+      {
+        "slot": 1,
+        "id": "2128A",
+        "name": "Recycling Center",
+        "rating": 800,
+        "tags": [
+          "greedy",
+          "sortings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2128/A"
+      },
+      {
+        "slot": 2,
+        "id": "2252B",
+        "name": "Always Changing",
+        "rating": 1100,
+        "tags": [
+          "dp",
+          "greedy",
+          "math",
+          "strings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2252/B"
+      },
+      {
+        "slot": 3,
+        "id": "469B",
+        "name": "Chat Online",
+        "rating": 1300,
+        "tags": [
+          "implementation"
+        ],
+        "url": "https://codeforces.com/problemset/problem/469/B"
+      },
+      {
+        "slot": 4,
+        "id": "703B",
+        "name": "Mishka and trip",
+        "rating": 1400,
+        "tags": [
+          "implementation",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/703/B"
+      },
+      {
+        "slot": 5,
+        "id": "1511D",
+        "name": "Min Cost String",
+        "rating": 1600,
+        "tags": [
+          "brute force",
+          "constructive algorithms",
+          "graphs",
+          "greedy",
+          "strings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1511/D"
+      },
+      {
+        "slot": 6,
+        "id": "2180D",
+        "name": "Insolvable Disks",
+        "rating": 2000,
+        "tags": [
+          "data structures",
+          "dp",
+          "greedy",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2180/D"
+      }
+    ]
   }
 ]
