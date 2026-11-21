@@ -990,5 +990,75 @@
         "url": "https://codeforces.com/problemset/problem/2180/D"
       }
     ]
+  },
+  {
+    "date": "2026-11-22",
+    "problems": [
+      {
+        "slot": 1,
+        "id": "1610A",
+        "name": "Anti Light's Cell Guessing",
+        "rating": 900,
+        "tags": [
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1610/A"
+      },
+      {
+        "slot": 2,
+        "id": "1073A",
+        "name": "Diverse Substring",
+        "rating": 1000,
+        "tags": [
+          "implementation",
+          "strings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1073/A"
+      },
+      {
+        "slot": 3,
+        "id": "1487B",
+        "name": "Cat Cycle",
+        "rating": 1200,
+        "tags": [
+          "math",
+          "number theory"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1487/B"
+      },
+      {
+        "slot": 4,
+        "id": "243A",
+        "name": "The Brand New Function",
+        "rating": 1600,
+        "tags": [
+          "bitmasks"
+        ],
+        "url": "https://codeforces.com/problemset/problem/243/A"
+      },
+      {
+        "slot": 5,
+        "id": "711C",
+        "name": "Coloring Trees",
+        "rating": 1700,
+        "tags": [
+          "dp"
+        ],
+        "url": "https://codeforces.com/problemset/problem/711/C"
+      },
+      {
+        "slot": 6,
+        "id": "1202D",
+        "name": "Print a 1337-string...",
+        "rating": 1900,
+        "tags": [
+          "combinatorics",
+          "constructive algorithms",
+          "math",
+          "strings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1202/D"
+      }
+    ]
   }
 ]
