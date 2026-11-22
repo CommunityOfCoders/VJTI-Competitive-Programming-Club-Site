@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-22T06:33:21.436Z",
+  "updatedAt": "2026-11-22T09:33:31.375Z",
   "users": {
     "urabhay10": {
       "name": "Abhay Upadhyay",
@@ -484,7 +484,12 @@
           "1511D"
         ],
         "2026-11-22": [
-          "1202D"
+          "1202D",
+          "1610A",
+          "1073A",
+          "1487B",
+          "243A",
+          "711C"
         ]
       },
       "lateSolves": {
@@ -495,22 +500,22 @@
           "2180D"
         ]
       },
-      "totalSolved": 27,
+      "totalSolved": 32,
       "currentStreak": 5,
       "longestStreak": 5,
-      "solvedToday": 1,
+      "solvedToday": 6,
       "solvedBySlot": [
-        5,
         6,
-        4,
-        4,
-        4,
+        7,
+        5,
+        5,
+        5,
         4
       ],
       "lastSolvedDate": "2026-11-22",
-      "points": 35900,
-      "lastCompletedAt": "2026-11-22T06:04:56.000Z",
-      "todayCompletedAt": "2026-11-22T06:04:56.000Z"
+      "points": 42300,
+      "lastCompletedAt": "2026-11-22T09:03:32.000Z",
+      "todayCompletedAt": "2026-11-22T09:03:32.000Z"
     },
     "kamathvivek91": {
       "name": "Vivek Kamath",
@@ -1837,25 +1842,28 @@
         ],
         "2026-11-18": [
           "2057A"
+        ],
+        "2026-11-22": [
+          "1610A"
         ]
       },
       "lateSolves": {},
-      "totalSolved": 2,
-      "currentStreak": 0,
+      "totalSolved": 3,
+      "currentStreak": 1,
       "longestStreak": 1,
-      "solvedToday": 0,
+      "solvedToday": 1,
       "solvedBySlot": [
-        2,
+        3,
         0,
         0,
         0,
         0,
         0
       ],
-      "lastSolvedDate": "2026-11-18",
-      "points": 1800,
-      "lastCompletedAt": "2026-11-18T14:46:57.000Z",
-      "todayCompletedAt": null
+      "lastSolvedDate": "2026-11-22",
+      "points": 2700,
+      "lastCompletedAt": "2026-11-22T07:20:15.000Z",
+      "todayCompletedAt": "2026-11-22T07:20:15.000Z"
     },
     "hitika_nathani": {
       "name": "Hitika Nathani",
