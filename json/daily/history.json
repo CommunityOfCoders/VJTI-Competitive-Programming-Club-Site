@@ -1060,5 +1060,84 @@
         "url": "https://codeforces.com/problemset/problem/1202/D"
       }
     ]
+  },
+  {
+    "date": "2026-11-23",
+    "problems": [
+      {
+        "slot": 1,
+        "id": "2119A",
+        "name": "Add or XOR",
+        "rating": 800,
+        "tags": [
+          "bitmasks",
+          "greedy",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2119/A"
+      },
+      {
+        "slot": 2,
+        "id": "2003C",
+        "name": "Turtle and Good Pairs",
+        "rating": 1200,
+        "tags": [
+          "constructive algorithms",
+          "greedy",
+          "sortings",
+          "strings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2003/C"
+      },
+      {
+        "slot": 3,
+        "id": "1307B",
+        "name": "Cow and Friend",
+        "rating": 1300,
+        "tags": [
+          "geometry",
+          "greedy",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1307/B"
+      },
+      {
+        "slot": 4,
+        "id": "388A",
+        "name": "Fox and Box Accumulation",
+        "rating": 1400,
+        "tags": [
+          "greedy",
+          "sortings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/388/A"
+      },
+      {
+        "slot": 5,
+        "id": "1954D",
+        "name": "Colored Balls",
+        "rating": 1800,
+        "tags": [
+          "combinatorics",
+          "dp",
+          "math",
+          "sortings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1954/D"
+      },
+      {
+        "slot": 6,
+        "id": "2246D",
+        "name": "diss_quack and Array Game",
+        "rating": 1900,
+        "tags": [
+          "bitmasks",
+          "brute force",
+          "games",
+          "greedy"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2246/D"
+      }
+    ]
   }
 ]
