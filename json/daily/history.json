@@ -1139,5 +1139,83 @@
         "url": "https://codeforces.com/problemset/problem/2246/D"
       }
     ]
+  },
+  {
+    "date": "2026-11-24",
+    "problems": [
+      {
+        "slot": 1,
+        "id": "2065A",
+        "name": "Skibidus and Amog'u",
+        "rating": 800,
+        "tags": [
+          "brute force",
+          "constructive algorithms",
+          "greedy",
+          "implementation",
+          "strings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2065/A"
+      },
+      {
+        "slot": 2,
+        "id": "178A1",
+        "name": "Educational Game",
+        "rating": 1000,
+        "tags": [],
+        "url": "https://codeforces.com/problemset/problem/178/A1"
+      },
+      {
+        "slot": 3,
+        "id": "1037B",
+        "name": "Reach Median",
+        "rating": 1300,
+        "tags": [
+          "greedy"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1037/B"
+      },
+      {
+        "slot": 4,
+        "id": "1189C",
+        "name": "Candies!",
+        "rating": 1400,
+        "tags": [
+          "data structures",
+          "dp",
+          "implementation",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1189/C"
+      },
+      {
+        "slot": 5,
+        "id": "1731C",
+        "name": "Even Subarrays",
+        "rating": 1700,
+        "tags": [
+          "bitmasks",
+          "brute force",
+          "hashing",
+          "math",
+          "number theory"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1731/C"
+      },
+      {
+        "slot": 6,
+        "id": "388B",
+        "name": "Fox and Minimal path",
+        "rating": 1900,
+        "tags": [
+          "bitmasks",
+          "constructive algorithms",
+          "graphs",
+          "implementation",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/388/B"
+      }
+    ]
   }
 ]
