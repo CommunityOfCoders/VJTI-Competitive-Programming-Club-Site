@@ -1217,5 +1217,80 @@
         "url": "https://codeforces.com/problemset/problem/388/B"
       }
     ]
+  },
+  {
+    "date": "2026-11-25",
+    "problems": [
+      {
+        "slot": 1,
+        "id": "1918B",
+        "name": "Minimize Inversions",
+        "rating": 900,
+        "tags": [
+          "constructive algorithms",
+          "data structures",
+          "greedy",
+          "implementation",
+          "sortings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1918/B"
+      },
+      {
+        "slot": 2,
+        "id": "1584B",
+        "name": "Coloring Rectangles",
+        "rating": 1000,
+        "tags": [
+          "greedy",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1584/B"
+      },
+      {
+        "slot": 3,
+        "id": "544B",
+        "name": "Sea and Islands",
+        "rating": 1400,
+        "tags": [
+          "constructive algorithms",
+          "implementation"
+        ],
+        "url": "https://codeforces.com/problemset/problem/544/B"
+      },
+      {
+        "slot": 4,
+        "id": "1054C",
+        "name": "Candies Distribution",
+        "rating": 1500,
+        "tags": [
+          "constructive algorithms",
+          "implementation"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1054/C"
+      },
+      {
+        "slot": 5,
+        "id": "254C",
+        "name": "Anagram",
+        "rating": 1800,
+        "tags": [
+          "greedy",
+          "strings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/254/C"
+      },
+      {
+        "slot": 6,
+        "id": "2033F",
+        "name": "Kosuke's Sloth",
+        "rating": 1800,
+        "tags": [
+          "brute force",
+          "math",
+          "number theory"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2033/F"
+      }
+    ]
   }
 ]
