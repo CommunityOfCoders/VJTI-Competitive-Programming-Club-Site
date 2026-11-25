@@ -9,17 +9,34 @@ export const metadata = {
 
 export default function BlogsPage() {
   const blogs = getAllBlogs();
+  const authors = new Set(blogs.map((b) => b.author)).size;
+  const minutes = blogs.reduce((sum, b) => sum + b.readingTime, 0);
 
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl sm:text-5xl font-mono font-bold text-white mb-4">
-          CP Club <span className="text-matrix-200">Articles & Insights</span>
+    <div className="container page">
+      <header className="page-head">
+        <span className="eyebrow">Written by club members</span>
+        <h1 className="page-title">
+          Articles &amp; <span className="mark">insights.</span>
         </h1>
-        <p className="text-gray-400 max-w-2xl mx-auto font-mono text-sm sm:text-base">
-          Tutorials, problem-solving write-ups, and algorithms guides.
+        <p className="page-lede">
+          Tutorials, problem-solving write-ups and algorithm guides, from game theory to segment trees.
         </p>
-      </div>
+        <div className="stat-row">
+          <div className="stat">
+            <span className="stat__num">{blogs.length}</span>
+            <span className="stat__label">Articles</span>
+          </div>
+          <div className="stat">
+            <span className="stat__num">{minutes}</span>
+            <span className="stat__label">Minutes of reading</span>
+          </div>
+          <div className="stat">
+            <span className="stat__num">{authors}</span>
+            <span className="stat__label">{authors === 1 ? "Author" : "Authors"}</span>
+          </div>
+        </div>
+      </header>
 
       <BlogsClient initialBlogs={blogs} />
     </div>
