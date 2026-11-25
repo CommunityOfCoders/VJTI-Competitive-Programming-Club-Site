@@ -1292,5 +1292,84 @@
         "url": "https://codeforces.com/problemset/problem/2033/F"
       }
     ]
+  },
+  {
+    "date": "2026-11-26",
+    "problems": [
+      {
+        "slot": 1,
+        "id": "1828B",
+        "name": "Permutation Swap",
+        "rating": 900,
+        "tags": [
+          "math",
+          "number theory"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1828/B"
+      },
+      {
+        "slot": 2,
+        "id": "1030B",
+        "name": "Vasya and Cornfield",
+        "rating": 1100,
+        "tags": [
+          "geometry"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1030/B"
+      },
+      {
+        "slot": 3,
+        "id": "1558A",
+        "name": "Charmed by the Game",
+        "rating": 1300,
+        "tags": [
+          "brute force",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1558/A"
+      },
+      {
+        "slot": 4,
+        "id": "1883F",
+        "name": "You Are So Beautiful",
+        "rating": 1400,
+        "tags": [
+          "data structures"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1883/F"
+      },
+      {
+        "slot": 5,
+        "id": "1537E1",
+        "name": "Erase and Extend (Easy Version)",
+        "rating": 1600,
+        "tags": [
+          "binary search",
+          "brute force",
+          "dp",
+          "greedy",
+          "hashing",
+          "implementation",
+          "string suffix structures",
+          "strings",
+          "two pointers"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1537/E1"
+      },
+      {
+        "slot": 6,
+        "id": "1882D",
+        "name": "Tree XOR",
+        "rating": 1900,
+        "tags": [
+          "bitmasks",
+          "dfs and similar",
+          "dp",
+          "greedy",
+          "trees"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1882/D"
+      }
+    ]
   }
 ]
