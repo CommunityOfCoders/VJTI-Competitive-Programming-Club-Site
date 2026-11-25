@@ -2,12 +2,13 @@
 
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
+import { AlertCircle, ArrowUpRight, Check } from 'lucide-react'
 
 const CSESUserPage = () => {
   const params = useParams();
   const userId = params?.userId;
   const [csesData, setCsesData] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showFilter, setShowFilter] = useState('all'); // 'all', 'solved', 'unsolved'
   
@@ -66,46 +67,37 @@ const CSESUserPage = () => {
 
   }, [userId]);
 
-  const renderProblemCard = (problem, index) => (
-    <div key={`${problem.id}-${index}`} className={`border rounded-lg p-4 hover:shadow-md transition-shadow ${
-      problem.status === 'Solved' 
-        ? 'bg-zinc-900 border-matrix-200/40' 
-        : 'bg-zinc-900 border-white/10'
-    }`}>
-      <div className="flex items-start justify-between">
-        <div className="flex-1">
-          <div className="text-sm font-medium text-zinc-400 mb-1">
-            Problem #{problem.id}
-          </div>
-          <h4 className="font-semibold text-white text-sm leading-tight mb-2">
-            {problem.title}
-          </h4>
-          <div className="text-xs text-zinc-500 mb-2">
-            {problem.stats}
-          </div>
-          <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-            problem.status === 'Solved' 
-              ? 'bg-matrix-200/15 text-matrix-200' 
-              : 'bg-zinc-800 text-white'
-          }`}>
-            {problem.status === 'Solved' ? '✓ Solved' : '○ Unsolved'}
-          </span>
-        </div>
-      </div>
-      <a 
-        href={problem.link} 
-        target="_blank" 
+  const FILTERS = [
+    { key: 'all', label: 'All problems' },
+    { key: 'solved', label: 'Solved' },
+    { key: 'unsolved', label: 'Unsolved' },
+  ];
+
+  const renderProblemCard = (problem, index) => {
+    const solved = problem.status === 'Solved';
+    return (
+      <a
+        key={`${problem.id}-${index}`}
+        href={problem.link}
+        target="_blank"
         rel="noopener noreferrer"
-        className="mt-3 inline-flex items-center text-xs text-zinc-400 hover:text-zinc-300 font-medium"
+        className={`cs-prob${solved ? ' is-solved' : ''}`}
+        title={problem.title}
       >
-        View Problem →
+        <span className="cs-prob__mark" aria-label={solved ? 'Solved' : 'Not solved'}>
+          {solved && <Check />}
+        </span>
+        <span className="cs-prob__body">
+          <span className="cs-prob__title">{problem.title}</span>
+          <span className="cs-prob__stats">#{problem.id}{problem.stats ? ` · ${problem.stats}` : ''}</span>
+        </span>
       </a>
-    </div>
-  );
+    );
+  };
 
   const renderSection = (sectionName, sectionData) => {
     let problemsToShow = [];
-    
+
     if (showFilter === 'solved') {
       problemsToShow = sectionData.solved;
     } else if (showFilter === 'unsolved') {
@@ -117,146 +109,112 @@ const CSESUserPage = () => {
     if (problemsToShow.length === 0) return null;
 
     return (
-      <div key={sectionName} className="mb-8">
-        <div className="bg-zinc-900 p-4 rounded-lg border border-white/10 mb-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-bold text-white">{sectionName}</h3>
-            <div className="flex items-center space-x-4">
-              <div className="text-sm text-zinc-400">
-                {sectionData.solvedCount}/{sectionData.totalCount} solved
-              </div>
-              <div className="text-sm font-medium text-matrix-200">
-                {sectionData.completionPercentage}%
-              </div>
-            </div>
-          </div>
-          
-          {/* Section Progress Bar */}
-          <div className="mt-2">
-            <div className="w-full bg-zinc-700 rounded-full h-2">
-              <div 
-                className="bg-matrix-200 h-2 rounded-full transition-all duration-500"
-                style={{ width: `${sectionData.completionPercentage}%` }}
-              ></div>
-            </div>
-          </div>
+      <section key={sectionName} className="cs-section">
+        <div className="cs-section__head">
+          <h3 className="cs-section__title">{sectionName}</h3>
+          <span className="cs-section__count">
+            <b>{sectionData.solvedCount}</b>/{sectionData.totalCount} · {sectionData.completionPercentage}%
+          </span>
+          <span className="bar"><span style={{ width: `${sectionData.completionPercentage}%` }} /></span>
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+        <div className="cs-grid">
           {problemsToShow.map((problem, index) => renderProblemCard(problem, index))}
         </div>
-      </div>
+      </section>
     );
   };
 
   if (!userId) {
-    return <div className="p-6">No user id provided.</div>;
+    return (
+      <div className="container page page--narrow">
+        <div className="panel panel--flat empty">
+          <p className="empty__title">No CSES user given</p>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6 text-white">CSES Problem Set</h1>
-      
+    <div className="container page">
+      <header className="page-head">
+        <span className="eyebrow">CSES Problem Set</span>
+        <h1 className="page-title page-title--sm">
+          {csesData ? csesData.username : 'CSES progress'}
+          <span className="mark">.</span>
+        </h1>
+        {csesData && (
+          <>
+            <div className="stat-row">
+              <div className="stat">
+                <span className="stat__num is-accent">{csesData.solvedProblems}</span>
+                <span className="stat__label">Solved</span>
+              </div>
+              <div className="stat">
+                <span className="stat__num">{csesData.totalProblems}</span>
+                <span className="stat__label">Problems in the set</span>
+              </div>
+              <div className="stat">
+                <span className="stat__num">{csesData.completionPercentage}%</span>
+                <span className="stat__label">Complete</span>
+              </div>
+            </div>
+            <div className="bar" style={{ marginTop: 22, height: 8 }}>
+              <span style={{ width: `${csesData.completionPercentage}%` }} />
+            </div>
+          </>
+        )}
+      </header>
+
       {loading && (
-        <div className="flex items-center space-x-2 text-zinc-400 p-4">
-          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
-          <p>Loading CSES data... (This may take a moment as we need to login)</p>
+        <div className="cs-grid">
+          {Array.from({ length: 12 }).map((_, i) => (
+            <div key={i} className="skel" style={{ height: 66 }} />
+          ))}
+          <p className="table-note" style={{ gridColumn: '1 / -1' }}>
+            Loading from CSES. This can take a moment, the site has to sign in first.
+          </p>
         </div>
       )}
-      
+
       {error && (
-        <div className="text-red-500 p-4 bg-red-50 rounded border border-red-200 mb-6">
-          <strong>Error:</strong> {error}
+        <div className="alert">
+          <AlertCircle />
+          <span>{error}</span>
         </div>
       )}
-      
+
       {csesData && (
-        <div className="space-y-6">
-          {/* User Stats Card */}
-          <div className="bg-zinc-900 p-6 rounded-lg border border-white/10">
-            <h2 className="text-2xl font-bold text-white mb-4">
-              {csesData.username} ({csesData.userId})
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-green-600">{csesData.solvedProblems}</div>
-                <div className="text-sm text-zinc-400">Problems Solved</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-zinc-400">{csesData.totalProblems}</div>
-                <div className="text-sm text-zinc-400">Total Problems</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-matrix-200">{csesData.completionPercentage}%</div>
-                <div className="text-sm text-zinc-400">Completion Rate</div>
-              </div>
+        <>
+          <div className="cs-tools">
+            <div className="chips" role="tablist" aria-label="Show problems">
+              {FILTERS.map((f) => (
+                <button
+                  key={f.key}
+                  role="tab"
+                  aria-selected={showFilter === f.key}
+                  onClick={() => setShowFilter(f.key)}
+                  className={`chip-btn${showFilter === f.key ? ' is-active' : ''}`}
+                >
+                  {f.label}
+                </button>
+              ))}
             </div>
-            
-            {/* Overall Progress Bar */}
-            <div className="mt-4">
-              <div className="w-full bg-zinc-700 rounded-full h-3">
-                <div 
-                  className="bg-matrix-200 h-3 rounded-full transition-all duration-500"
-                  style={{ width: `${csesData.completionPercentage}%` }}
-                ></div>
-              </div>
-            </div>
+            <a
+              href={`https://cses.fi/problemset/user/${encodeURIComponent(userId)}/`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-arrow"
+            >
+              Open on CSES <ArrowUpRight />
+            </a>
           </div>
 
-          {/* Filters */}
-          <div className="flex flex-wrap gap-4 items-center justify-between bg-zinc-900 p-4 rounded-lg border border-white/10">
-            <div className="flex flex-wrap gap-2">
-              <span className="text-sm font-medium text-zinc-300">Show:</span>
-              <button
-                onClick={() => setShowFilter('all')}
-                className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
-                  showFilter === 'all' 
-                    ? 'bg-zinc-800 text-zinc-300' 
-                    : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700'
-                }`}
-              >
-                All Problems
-              </button>
-              <button
-                onClick={() => setShowFilter('solved')}
-                className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
-                  showFilter === 'solved' 
-                    ? 'bg-matrix-200/15 text-matrix-200' 
-                    : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700'
-                }`}
-              >
-                Solved Only
-              </button>
-              <button
-                onClick={() => setShowFilter('unsolved')}
-                className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
-                  showFilter === 'unsolved' 
-                    ? 'bg-orange-100 text-orange-800' 
-                    : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700'
-                }`}
-              >
-                Unsolved Only
-              </button>
-            </div>
-          </div>
-          
-          {/* Sections */}
-          {csesData.sections && (
-            <div>
-              <h3 className="text-xl font-bold mb-6 text-white">
-                Problems by Section
-              </h3>
-              <div className="space-y-8">
-                {Object.entries(csesData.sections).map(([sectionName, sectionData]) => 
-                  renderSection(sectionName, sectionData)
-                )}
-              </div>
-            </div>
-          )}
-        </div>
+          {csesData.sections &&
+            Object.entries(csesData.sections).map(([sectionName, sectionData]) => renderSection(sectionName, sectionData))}
+        </>
       )}
     </div>
-  )
+  );
 }
 
 export default CSESUserPage
