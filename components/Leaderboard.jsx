@@ -1,14 +1,48 @@
 "use client";
 
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useMemo, useState, useCallback } from "react";
 import axios from "axios";
 import members from "../json/members.json";
 import Link from "next/link";
-import { CircleCheck, CircleX, ArrowUp, ArrowDown } from "lucide-react";
+import { ArrowDown, ArrowUpDown } from "lucide-react";
 import { LeaderboardSkeleton } from "./Skeleton";
 import Image from "next/image";
 
 const CACHE_DURATION = 24 * 60 * 60 * 1000; // 1 day in milliseconds
+const CACHE_KEY = "leaderboardData";
+
+const TABS = [
+  { key: "all", label: "All members" },
+  { key: "club", label: "CP Club" },
+  { key: "nonclub", label: "Non-club" },
+];
+
+// Official Codeforces rank colours, nudged so they read on true black.
+// They only colour the small dot next to the rank name.
+const CF_RANK_COLORS = {
+  newbie: "#8C8C8C",
+  pupil: "#2E9E3E",
+  specialist: "#03A89E",
+  expert: "#4C6FFF",
+  "candidate master": "#B44CC2",
+  master: "#FF8C00",
+  "international master": "#FF8C00",
+  grandmaster: "#FF3B30",
+  "international grandmaster": "#FF3B30",
+  "legendary grandmaster": "#FF3B30",
+};
+
+const readCache = () => {
+  try {
+    const cached = JSON.parse(localStorage.getItem(CACHE_KEY));
+    if (cached && Array.isArray(cached.data) && Date.now() - cached.timestamp < CACHE_DURATION) return cached;
+  } catch {
+    /* private mode or bad JSON: fall through to a fresh fetch */
+  }
+  return null;
+};
+
+const attendedCount = (list) => (list || []).reduce((acc, val) => acc + (val ? 1 : 0), 0);
 
 const Leaderboard = () => {
   const [leaderboardData, setLeaderboardData] = useState([]);
@@ -16,16 +50,10 @@ const Leaderboard = () => {
   const [isAttendanceLoading, setIsAttendanceLoading] = useState(true);
   const [attendanceMap, setAttendanceMap] = useState({});
   const [activeTab, setActiveTab] = useState("all");
-  const [sortKey, setSortKey] = useState(null);
-
-  const filteredData =
-    activeTab === "all"
-      ? leaderboardData
-      : leaderboardData.filter((member) =>
-        activeTab === "club" ? member.inClub : !member.inClub
-      );
+  const [sortKey, setSortKey] = useState("rating");
 
   const fetchUserRatings = async (handles) => {
+    if (handles.length === 0) return [];
     try {
       const response = await axios.get(
         `https://codeforces.com/api/user.info?handles=${handles.join(";")}`
@@ -40,20 +68,17 @@ const Leaderboard = () => {
   const fetchLeetCodeRating = async () => {
     try {
       const response = await axios.get("/api/lcrating");
-      const sortedData = response.data.sort((a, b) => b.rating - a.rating);
-      return sortedData;
+      return Array.isArray(response.data) ? response.data : [];
     } catch (error) {
       console.log("Error fetching leaderboard data:", error);
+      return [];
     }
   };
 
   const fetchLastFiveContests = async () => {
     try {
-      const response = await axios.get(
-        "https://codeforces.com/api/contest.list"
-      );
-      const contests = response.data.result;
-      return contests
+      const response = await axios.get("https://codeforces.com/api/contest.list");
+      return response.data.result
         .filter((contest) => contest.phase === "FINISHED")
         .slice(0, 5)
         .map((contest) => contest.id);
@@ -61,15 +86,6 @@ const Leaderboard = () => {
       console.error("Error fetching contests:", error);
       return [];
     }
-  };
-
-  const getRankColor = (rating) => {
-    if (rating >= 2000) return "bg-orange-500 text-white";
-    if (rating >= 1800) return "bg-purple-500 text-white";
-    if (rating >= 1600) return "bg-blue-500 text-white";
-    if (rating >= 1400) return "bg-cyan-500 text-white";
-    if (rating >= 1200) return "bg-green-500 text-white";
-    return "bg-gray-500 text-white";
   };
 
   const getValidCodeforcesUsers = async (initialHandles) => {
@@ -81,23 +97,18 @@ const Leaderboard = () => {
         const response = await axios.get(
           `https://codeforces.com/api/user.info?handles=${currentHandles.join(";")}`
         );
-        return {
-          validHandles: response.data.result.map(u => u.handle)
-        };
+        return { validHandles: response.data.result.map((u) => u.handle) };
       } catch (error) {
         attempts++;
         const comment = error.response?.data?.comment;
 
-        // Extract the specific bad handle from the error message
-        if (comment && comment.includes("not found")) {
-          const matches = comment.match(/User with handle (.+) not found/);
-          if (matches && matches[1]) {
-            const badHandle = matches[1];
-            console.warn(`Invalid Handle Found: ${badHandle}. Removing from list...`);
-
-            currentHandles = currentHandles.filter(h => h !== badHandle);
-            continue;
-          }
+        // Drop the one handle Codeforces complains about and try again
+        const matches = comment?.match(/User with handle (.+) not found/);
+        if (matches && matches[1]) {
+          const badHandle = matches[1].toLowerCase();
+          console.warn(`Invalid Handle Found: ${matches[1]}. Removing from list...`);
+          currentHandles = currentHandles.filter((h) => h.toLowerCase() !== badHandle);
+          continue;
         }
         console.error("Critical API Error:", error);
         break;
@@ -107,98 +118,76 @@ const Leaderboard = () => {
   };
 
   const fetchRatingsAndAttendance = useCallback(async () => {
-    const handles = Object.keys(members).map(
-      (member) => members[member].cf_username
-    );
+    const handles = Object.values(members).map((member) => member.cf_username);
     setIsProfileLoading(true);
     setIsAttendanceLoading(true);
-    const { validHandles } = await getValidCodeforcesUsers(handles);
-
-    const lastFiveContests = await fetchLastFiveContests();
 
     try {
-      const attendanceMap = handles.reduce((acc, handle) => {
+      const { validHandles } = await getValidCodeforcesUsers(handles);
+      const [lastFiveContests, leetCodeRating, cfRatings] = await Promise.all([
+        fetchLastFiveContests(),
+        fetchLeetCodeRating(),
+        fetchUserRatings(validHandles),
+      ]);
+
+      // Codeforces returns handles in their canonical case, members.json may not match
+      const cfByHandle = new Map(cfRatings.map((user) => [user.handle.toLowerCase(), user]));
+      const lcByUser = new Map(leetCodeRating.map((item) => [String(item.username).toLowerCase(), item.rating]));
+
+      const freshAttendance = handles.reduce((acc, handle) => {
         acc[handle] = [false, false, false, false, false];
         return acc;
       }, {});
 
-      const leetCodeRating = await fetchLeetCodeRating();
-      const cfRatings = await fetchUserRatings(validHandles);
-      const updatedMembers = [];
-
-      for (const [username, data] of Object.entries(members)) {
-        const cfData = cfRatings.find(
-          (user) => user.handle === data.cf_username
-        );
-
-        const memberData = {
+      const updatedMembers = Object.entries(members).map(([username, data]) => {
+        const cfData = cfByHandle.get(data.cf_username.toLowerCase());
+        return {
           ...data,
-          username: username,
+          username,
           rating: cfData?.rating || 0,
           maxRating: cfData?.maxRating || 0,
-          rank: cfData?.rank || "N/A",
-          maxRank: cfData?.maxRank || "N/A",
-          titlePhoto: 
+          rank: cfData?.rank || "unrated",
+          maxRank: cfData?.maxRank || "unrated",
+          titlePhoto:
             cfData?.titlePhoto && !cfData.titlePhoto.includes("no-title")
-              ? `https://codeforces.com/${cfData.titlePhoto.replace(/^(https?:)?\/\//, "")}`
+              ? // userpic.codeforces.org refuses direct loads; codeforces.com proxies the same path
+                `https://codeforces.com/${cfData.titlePhoto.replace(/^(https?:)?\/\//, "")}`
               : "/images/nouserpic-photo.jpg",
-          rankColor:
-            cfData?.rank === "N/A"
-              ? "bg-red-500 text-white"
-              : getRankColor(cfData?.rating || 0),
-          leetCodeRating:
-            leetCodeRating.find((item) => item.username === data.lc_username)
-              ?.rating || 0,
-          attendance: attendanceMap[data.cf_username] === undefined ? [
-            false,
-            false,
-            false,
-            false,
-            false,
-          ] : attendanceMap[data.cf_username],
+          leetCodeRating: Math.round(lcByUser.get(String(data.lc_username).toLowerCase()) || 0),
         };
+      });
 
-        updatedMembers.push(memberData);
-      }
-
-      updatedMembers.sort((a, b) => b.rating - a.rating);
       setLeaderboardData(updatedMembers);
       setIsProfileLoading(false);
-let handleMap={};
-for(let handle of validHandles){
-  handleMap[handle]=true;
-};
-for(let contestId of lastFiveContests) {
-  try{
-    let response=await axios.get(
-      `https://codeforces.com/api/contest.standings?contestId=${contestId}`
-    );
-    let contestIndex=lastFiveContests.indexOf(contestId);
-    for(let row of response.data.result.rows){
-      for(let member of row.party.members){
-        let handle=member.handle;
-        if(handleMap[handle]&&attendanceMap[handle]!=null) {
-          attendanceMap[handle][contestIndex] = true;
-        }
-      };
-    };
-  }catch(error){
-    console.error(`Error fetching standings for contest ${contestId}:`,error);
-  }
-}
-      setAttendanceMap(attendanceMap);
-      setIsAttendanceLoading(false);
-      // console.log("Attendance Map:", attendanceMap);
 
-      
-      // console.log( "Leaderboard Data:", updatedMembers);
-      const cachedData = {
-        data: updatedMembers,
-        attendanceMap,
-        timestamp: Date.now(),
-      };
-      localStorage.setItem("leaderboardData", JSON.stringify(cachedData));
-      localStorage.setItem("lastClearDateIST", new Date().toISOString());
+      // canonical handle -> members.json handle, so standings rows map back
+      const memberHandle = new Map(handles.map((h) => [h.toLowerCase(), h]));
+      for (const [contestIndex, contestId] of lastFiveContests.entries()) {
+        try {
+          const response = await axios.get(
+            `https://codeforces.com/api/contest.standings?contestId=${contestId}`
+          );
+          for (const row of response.data.result.rows) {
+            for (const member of row.party.members) {
+              const own = memberHandle.get(member.handle.toLowerCase());
+              if (own && freshAttendance[own]) freshAttendance[own][contestIndex] = true;
+            }
+          }
+        } catch (error) {
+          console.error(`Error fetching standings for contest ${contestId}:`, error);
+        }
+      }
+      setAttendanceMap(freshAttendance);
+
+      try {
+        localStorage.setItem(
+          CACHE_KEY,
+          JSON.stringify({ data: updatedMembers, attendanceMap: freshAttendance, timestamp: Date.now() })
+        );
+        localStorage.setItem("lastClearDateIST", new Date().toISOString());
+      } catch {
+        /* storage full or blocked: the page still works without the cache */
+      }
     } catch (error) {
       console.error("Error fetching leaderboard data:", error);
     } finally {
@@ -209,49 +198,22 @@ for(let contestId of lastFiveContests) {
 
   useEffect(() => {
     const checkForMidnightIST = () => {
-      const now = new Date();
-      const istOffset = 330; // IST is UTC+5:30
-      const istNow = new Date(now.getTime() + istOffset * 60 * 1000);
-
-      const currentHour = istNow.getUTCHours();
-      const currentMinute = istNow.getUTCMinutes();
-
-      // Check if it's exactly 12:00 AM IST and clear the storage
-      if (currentHour === 0 && currentMinute === 0) {
-        localStorage.removeItem("leaderboardData");
-        localStorage.setItem("lastClearDateIST", new Date().toISOString());
+      const istNow = new Date(Date.now() + 330 * 60 * 1000); // IST is UTC+5:30
+      if (istNow.getUTCHours() === 0 && istNow.getUTCMinutes() === 0) {
+        try {
+          localStorage.removeItem(CACHE_KEY);
+          localStorage.setItem("lastClearDateIST", new Date().toISOString());
+        } catch {
+          /* ignore */
+        }
       }
     };
-
-    // Set an interval to check the time every minute
     const intervalId = setInterval(checkForMidnightIST, 60000);
 
-    const cachedData = JSON.parse(localStorage.getItem("leaderboardData"));
-    const isCacheValid =
-      cachedData && Date.now() - cachedData.timestamp < CACHE_DURATION;
-
-    if (isCacheValid) {
-      if (sortKey == "leetCodeRating") {
-        cachedData.data.sort((a, b) => b.leetCodeRating - a.leetCodeRating);
-      }
-      else if (sortKey === "attendance") {
-        cachedData.data.sort((a, b) => {
-          const aAttendance = a.attendance.reduce(
-            (acc, val) => acc + (val ? 1 : 0),
-            0
-          );
-
-          const bAttendance = b.attendance.reduce(
-            (acc, val) => acc + (val ? 1 : 0),
-            0
-          );
-
-          return bAttendance - aAttendance;
-        });
-      }
-
-      setLeaderboardData(cachedData.data);
-      setAttendanceMap(cachedData.attendanceMap);
+    const cached = readCache();
+    if (cached) {
+      setLeaderboardData(cached.data);
+      setAttendanceMap(cached.attendanceMap || {});
       setIsProfileLoading(false);
       setIsAttendanceLoading(false);
     } else {
@@ -259,245 +221,174 @@ for(let contestId of lastFiveContests) {
     }
 
     return () => clearInterval(intervalId);
-  }, [sortKey, fetchRatingsAndAttendance]);
+  }, [fetchRatingsAndAttendance]);
+
+  const rows = useMemo(() => {
+    const list =
+      activeTab === "all"
+        ? [...leaderboardData]
+        : leaderboardData.filter((m) => (activeTab === "club" ? m.inClub : !m.inClub));
+    const by = {
+      rating: (a, b) => b.rating - a.rating,
+      leetCodeRating: (a, b) => b.leetCodeRating - a.leetCodeRating,
+      attendance: (a, b) =>
+        attendedCount(attendanceMap[b.cf_username]) - attendedCount(attendanceMap[a.cf_username]) ||
+        b.rating - a.rating,
+    }[sortKey];
+    return list.sort(by);
+  }, [leaderboardData, activeTab, sortKey, attendanceMap]);
+
+  const counts = useMemo(
+    () => ({
+      all: leaderboardData.length,
+      club: leaderboardData.filter((m) => m.inClub).length,
+      nonclub: leaderboardData.filter((m) => !m.inClub).length,
+    }),
+    [leaderboardData]
+  );
+  const topRating = useMemo(() => Math.max(0, ...leaderboardData.map((m) => m.rating)), [leaderboardData]);
 
   if (isProfileLoading) {
     return <LeaderboardSkeleton />;
   }
 
-  // Helper function to render rank with medals for top 3
-  const renderRank = (index) => {
-    const Medal = ({ className }) => (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className={className}
-      >
-        <path d="M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15" />
-        <path d="M11 12 5.12 2.2" />
-        <path d="m13 12 5.88-9.8" />
-        <path d="M8 7h8" />
-        <circle cx="12" cy="17" r="5" />
-        <path d="M12 18v-2h-.5" />
-      </svg>
-    );
-
-    if (index === 0) {
-      return (
-        <div className="flex items-center justify-center">
-          <Medal className="w-6 h-6 text-yellow-400 drop-shadow-glow" />
-        </div>
-      );
-    }
-    if (index === 1) {
-      return (
-        <div className="flex items-center justify-center">
-          <Medal className="w-6 h-6 text-gray-300 drop-shadow-glow" />
-        </div>
-      );
-    }
-    if (index === 2) {
-      return (
-        <div className="flex items-center justify-center">
-          <Medal className="w-6 h-6 text-orange-400 drop-shadow-glow" />
-        </div>
-      );
-    }
-    return <span className="font-mono text-zinc-400">{index + 1}</span>;
-  };
+  const SortHead = ({ k, children }) => (
+    <button className="sort-btn" onClick={() => setSortKey(k)} aria-pressed={sortKey === k}>
+      {children}
+      {sortKey === k ? <ArrowDown /> : <ArrowUpDown style={{ opacity: 0.45 }} />}
+    </button>
+  );
 
   return (
-    <div className="flex flex-col items-center min-h-screen p-4 sm:p-8">
-      {/* Header */}
-      <div className="w-full max-w-7xl mb-8">
-        <h1 className="text-4xl sm:text-5xl font-mono font-bold text-white mb-2">
-          <span className="text-matrix-200">
-            Leaderboard
-          </span>
+    <div className="container page">
+      <header className="page-head">
+        <span className="eyebrow">Codeforces · LeetCode</span>
+        <h1 className="page-title">
+          Leader<span className="mark">board.</span>
         </h1>
-        <p className="text-zinc-400 text-sm sm:text-base">
-          Track your competitive programming progress
+        <p className="page-lede">
+          Every member&apos;s Codeforces and LeetCode rating in one table, plus who turned up for the last five
+          Codeforces rounds. Refreshed once a day.
         </p>
+        <div className="stat-row">
+          <div className="stat">
+            <span className="stat__num">{counts.all}</span>
+            <span className="stat__label">Members tracked</span>
+          </div>
+          <div className="stat">
+            <span className="stat__num">{counts.club}</span>
+            <span className="stat__label">In the CP Club</span>
+          </div>
+          <div className="stat">
+            <span className="stat__num is-accent">{topRating || "-"}</span>
+            <span className="stat__label">Top CF rating</span>
+          </div>
+        </div>
+      </header>
+
+      <div className="chips chips--scroll" role="tablist" aria-label="Filter members" style={{ marginBottom: 20 }}>
+        {TABS.map((tab) => (
+          <button
+            key={tab.key}
+            role="tab"
+            aria-selected={activeTab === tab.key}
+            onClick={() => setActiveTab(tab.key)}
+            className={`chip-btn${activeTab === tab.key ? " is-active" : ""}`}
+          >
+            {tab.label} <span className="chip-btn__count">{counts[tab.key]}</span>
+          </button>
+        ))}
       </div>
 
-      {/* Tabs */}
-      <div className="flex flex-wrap gap-2 sm:gap-4 mb-8">
-        <button
-          onClick={() => setActiveTab("all")}
-          className={`px-6 py-3 rounded-lg font-mono font-medium transition-all duration-300 ${activeTab === "all"
-            ? "bg-matrix-200 text-black "
-            : "glass border border-white/10 text-zinc-300 hover:border-matrix-200/40 hover:text-matrix-200"
-            }`}
-        >
-          All Members
-        </button>
-        <button
-          onClick={() => setActiveTab("club")}
-          className={`px-6 py-3 rounded-lg font-mono font-medium transition-all duration-300 ${activeTab === "club"
-            ? "bg-matrix-200 text-black "
-            : "glass border border-white/10 text-zinc-300 hover:border-matrix-200/40 hover:text-matrix-200"
-            }`}
-        >
-          CP Club Members
-        </button>
-        <button
-          onClick={() => setActiveTab("nonclub")}
-          className={`px-6 py-3 rounded-lg font-mono font-medium transition-all duration-300 ${activeTab === "nonclub"
-            ? "bg-matrix-200 text-black "
-            : "glass border border-white/10 text-zinc-300 hover:border-matrix-200/40 hover:text-matrix-200"
-            }`}
-        >
-          Non-CP Club Members
-        </button>
-      </div>
-
-      {/* Table Card */}
-      <div className="w-full max-w-7xl glass-card rounded-xl overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
+      <div className="panel panel--clip">
+        <div className="table-wrap">
+          <table className="data-table">
             <thead>
-              <tr className="bg-zinc-900 text-matrix-200 border-b border-white/10">
-                <th className="p-3 sm:p-4 text-left font-mono text-sm">Rank</th>
-                <th className="p-3 sm:p-4 text-left font-mono text-sm">Name</th>
-                <th className="p-3 sm:p-4 text-center font-mono text-sm">Year</th>
-                <th className="p-3 sm:p-4 text-center font-mono text-sm">
-                  <div className="flex items-center justify-center gap-2">
-                    <span>LeetCode</span>
-                    <button
-                      onClick={() => {
-                        setSortKey(sortKey === "leetCodeRating" ? null : "leetCodeRating");
-                      }}
-                      className="flex items-center hover:text-white transition-colors"
-                    >
-                      {sortKey === "leetCodeRating" ? (
-                        <ArrowDown size={16} />
-                      ) : (
-                        <ArrowUp size={16} className="opacity-30" />
-                      )}
-                    </button>
-                  </div>
+              <tr>
+                <th className="is-center" style={{ width: 64 }}>#</th>
+                <th>Member</th>
+                <th className="is-center">Year</th>
+                <th className={`is-center${sortKey === "leetCodeRating" ? " is-sorted" : ""}`}>
+                  <SortHead k="leetCodeRating">LeetCode</SortHead>
                 </th>
-                <th className="p-3 sm:p-4 text-center font-mono text-sm">CF Rating</th>
-                <th className="p-3 sm:p-4 text-center font-mono text-sm">CF Rank</th>
-                <th className="p-3 sm:p-4 text-center font-mono text-sm">
-                  <div className="flex items-center justify-center gap-2">
-                    <span>Last 5</span>
-                    <button
-                      onClick={() => {
-                        setSortKey(sortKey === "attendance" ? null : "attendance");
-                      }}
-                      className="flex items-center hover:text-white transition-colors"
-                    >
-                      {sortKey === "attendance" ? (
-                        <ArrowDown size={16} />
-                      ) : (
-                        <ArrowUp size={16} className="opacity-30" />
-                      )}
-                    </button>
-                  </div>
+                <th className={`is-center${sortKey === "rating" ? " is-sorted" : ""}`}>
+                  <SortHead k="rating">CF rating</SortHead>
+                </th>
+                <th>CF rank</th>
+                <th className={`is-center${sortKey === "attendance" ? " is-sorted" : ""}`}>
+                  <SortHead k="attendance">Last 5 rounds</SortHead>
                 </th>
               </tr>
             </thead>
             <tbody>
-              {filteredData.map((member, index) => (
-                <tr
-                  key={index}
-                  className={`border-b border-white/5 transition-all duration-300 hover:scale-[1.01] hover:border-matrix-200/40 group ${index % 2 === 0 ? "bg-black/30" : "bg-zinc-900/30"
-                    }`}
-                >
-                  {/* Rank Column with Medals */}
-                  <td className="p-3 sm:p-4 text-center">
-                    {renderRank(index)}
-                  </td>
-
-                  {/* Name Column with Avatar */}
-                  <td className="p-3 sm:p-4">
-                    <div className="flex items-center gap-3">
-                      <Image
-                        width={40}
-                        height={40}
-                        src={member.titlePhoto}
-                        alt={member.name}
-                        className="w-8 h-8 sm:w-10 sm:h-10 rounded-full ring-2 ring-green-500 ring-offset-2 ring-offset-black"
-                      />
-                      <Link
-                        className="text-sm sm:text-base text-zinc-300 hover:text-matrix-200 transition-colors font-medium"
-                        href={`profile/${member.username}`}
+              {rows.map((member, index) => {
+                const attendance = attendanceMap[member.cf_username];
+                return (
+                  <tr key={member.username}>
+                    <td className="is-center">
+                      <span className={`rank${index < 3 ? ` rank--${index + 1}` : ""}`}>{index + 1}</span>
+                    </td>
+                    <td>
+                      <div className="person">
+                        <Image
+                          width={36}
+                          height={36}
+                          src={member.titlePhoto}
+                          alt=""
+                          className="avatar"
+                          style={{ width: 36, height: 36 }}
+                          unoptimized
+                        />
+                        <Link href={`/profile/${member.username}`} style={{ whiteSpace: "nowrap" }}>
+                          {member.name}
+                        </Link>
+                      </div>
+                    </td>
+                    <td className="is-center num is-dim">{member.year}</td>
+                    <td className="is-center">
+                      <a
+                        href={`https://leetcode.com/u/${member.lc_username}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="num"
                       >
-                        {member.name}
-                      </Link>
-                    </div>
-                  </td>
-
-                  {/* Year */}
-                  <td className="p-3 sm:p-4 text-center text-zinc-400 text-sm sm:text-base">
-                    {member.year}
-                  </td>
-
-                  {/* LeetCode Rating */}
-                  <td className="p-3 sm:p-4 text-center">
-                    <a
-                      href={`https://leetcode.com/${member.lc_username}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm sm:text-base text-matrix-200 hover:text-matrix-100 transition-colors font-mono"
-                    >
-                      {member.leetCodeRating}
-                    </a>
-                  </td>
-
-                  {/* Codeforces Rating */}
-                  <td className="p-3 sm:p-4 text-center">
-                    <a
-                      href={`https://codeforces.com/profile/${member.cf_username}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm sm:text-base text-matrix-200 hover:text-matrix-100 transition-colors font-mono"
-                    >
-                      {member.rating}
-                    </a>
-                  </td>
-
-                  {/* Rank Badge */}
-                  <td className="p-3 sm:p-4 text-center">
-                    <span
-                      className={`inline-block px-3 py-1 rounded-md text-xs sm:text-sm font-mono font-bold capitalize ${member.rankColor}`}
-                    >
-                      {member.rank}
-                    </span>
-                  </td>
-
-                  {/* Attendance */}
-                  <td className="p-3 sm:p-4">
-                    <div className="flex gap-2 items-center justify-center">
-                      {isAttendanceLoading ? (
-                        Array.from({ length: 5 }).map((_, i) => (
-                          <div key={i} className="w-4 h-4 bg-zinc-700 rounded-full animate-pulse" />
-                        ))
-                      ) : attendanceMap[member.cf_username]?.map((attended, i) => (
-                        <span key={i}>
-                          {attended ? (
-                            <CircleCheck size={18} className="text-green-500" />
-                          ) : (
-                            <CircleX size={18} className="text-red-500/50" />
-                          )}
-                        </span>
-                      ))}
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                        {member.leetCodeRating || "-"}
+                      </a>
+                    </td>
+                    <td className="is-center">
+                      <a
+                        href={`https://codeforces.com/profile/${member.cf_username}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="num"
+                        style={{ fontWeight: 500 }}
+                      >
+                        {member.rating || "-"}
+                      </a>
+                    </td>
+                    <td>
+                      <span className="cf-rank" style={{ "--rk": CF_RANK_COLORS[member.rank] || "transparent" }}>
+                        {member.rank === "N/A" ? "unrated" : member.rank}
+                      </span>
+                    </td>
+                    <td>
+                      <div className="attend" aria-label={`Took part in ${attendedCount(attendance)} of the last 5 rounds`}>
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <span
+                            key={i}
+                            className={`attend__cell${isAttendanceLoading ? " is-loading" : attendance?.[i] ? " is-on" : ""}`}
+                          />
+                        ))}
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
       </div>
+      <p className="table-note">Tap a name for the full profile. Ratings link out to Codeforces and LeetCode.</p>
     </div>
   );
 };
