@@ -1,4 +1,6 @@
 import "./globals.css";
+import "./kit.css";
+import "./pages.css";
 import "katex/dist/katex.min.css";
 import NextTopLoader from "nextjs-toploader";
 import Navbar from "@/components/Navbar";
@@ -10,7 +12,7 @@ export const metadata = {
   description: "Competitive Programming Club at VJTI, by Community of Coders.",
 };
 
-export const viewport = { themeColor: "#0A0A0A" };
+export const viewport = { themeColor: "#070808" };
 
 export default function RootLayout({ children }) {
   return (
@@ -21,8 +23,10 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
           rel="stylesheet"
-          href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@500,700,800&f[]=switzer@400,500,600&display=swap"
+          href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@500,700,800&display=swap"
         />
+        {/* Fontshare only serves the first family of a combined request, so Switzer gets its own link */}
+        <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600&display=swap" />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap"
