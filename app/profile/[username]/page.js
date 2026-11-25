@@ -3,13 +3,23 @@ import { getLeetCodeData } from "@/lib/getLeetCodeData";
 import React from "react";
 import members from "@/json/members.json";
 import { getCodeForcesData } from "@/lib/getCodeForcesData";
+import { notFound } from "next/navigation";
+
+export async function generateMetadata({ params }) {
+  const key = (await params).username;
+  const user = Object.prototype.hasOwnProperty.call(members, key) ? members[key] : null;
+  return { title: user ? `${user.name} · CP Club` : "Member not found · CP Club" };
+}
 
 async function page({ params }) {
   const key = (await params).username;
-  const user_data = members[key];
+  const user_data = Object.prototype.hasOwnProperty.call(members, key) ? members[key] : null;
+  if (!user_data) notFound();
 
-  const leetCodeData = await getLeetCodeData(user_data.lc_username);
-  const codeForcesData = await getCodeForcesData(user_data.cf_username);
+  const [leetCodeData, codeForcesData] = await Promise.all([
+    getLeetCodeData(user_data.lc_username).catch(() => null),
+    getCodeForcesData(user_data.cf_username).catch(() => null),
+  ]);
 
   let data = {
     user_data: user_data,
@@ -37,11 +47,7 @@ async function page({ params }) {
 
   // console.log(data);
   
-  return (
-    <div>
-      <Profile data={data} />
-    </div>
-  );
+  return <Profile data={data} />;
 }
 
 function normalizeContestData(contest, platform) {

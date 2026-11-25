@@ -1,187 +1,133 @@
 "use client";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useMemo } from "react";
 import { Chart } from "chart.js/auto";
 
+const MONO = "'DM Mono', ui-monospace, monospace";
+
+// Both platforms are plotted against real time (x = contest date), so a
+// LeetCode round and a Codeforces round from the same week line up.
 const RatingChart = ({ data }) => {
-  const [lcDates, setLcDates] = useState([]);
-  const [lcRatings, setLcRatings] = useState([]);
-  const [cfDates, setCfDates] = useState([]);
-  const [cfRatings, setCfRatings] = useState([]);
   const chartRef = useRef(null);
 
-  useEffect(() => {
-    if (data.contestsData?.leetCodeContestsData?.length > 0) {
-      const sortedLcData = data.contestsData.leetCodeContestsData.sort(
-        (a, b) => a.startTime - b.startTime
-      );
-      setLcDates(
-        sortedLcData.map((item) => formatDate(item.contest.startTime))
-      );
-      setLcRatings(sortedLcData.map((item) => item.rating));
-    } else {
-      setLcDates([]);
-      setLcRatings([]);
-    }
-
-    if (data.contestsData?.codeForcesContestsData?.length > 0) {
-      const sortedCfData = data.contestsData.codeForcesContestsData.sort(
-        (a, b) => a.ratingUpdateTimeSeconds - b.ratingUpdateTimeSeconds
-      );
-      setCfDates(
-        sortedCfData.map((item) => formatDate(item.ratingUpdateTimeSeconds))
-      );
-      setCfRatings(sortedCfData.map((item) => item.newRating));
-    } else {
-      setCfDates([]);
-      setCfRatings([]);
-    }
+  const series = useMemo(() => {
+    const lc = [...(data.contestsData?.leetCodeContestsData || [])]
+      .filter((item) => item?.contest?.startTime && item.rating)
+      .sort((a, b) => a.contest.startTime - b.contest.startTime)
+      .map((item) => ({ x: item.contest.startTime * 1000, y: Math.round(item.rating) }));
+    const cf = [...(data.contestsData?.codeForcesContestsData || [])]
+      .filter((item) => item?.ratingUpdateTimeSeconds)
+      .sort((a, b) => a.ratingUpdateTimeSeconds - b.ratingUpdateTimeSeconds)
+      .map((item) => ({ x: item.ratingUpdateTimeSeconds * 1000, y: item.newRating }));
+    return { lc, cf };
   }, [data]);
 
-  const formatDate = (timestamp) => {
-    const date = new Date(timestamp * 1000);
-    return date.toLocaleDateString();
-  };
+  const hasData = series.lc.length > 0 || series.cf.length > 0;
 
   useEffect(() => {
-    // console.log(chartRef.current);
+    if (!hasData || !chartRef.current) return undefined;
+    const ctx = chartRef.current.getContext("2d");
 
-    if (lcRatings.length > 0 || cfRatings.length > 0) {
-      const ctx = chartRef.current.getContext("2d");
+    const fill = (rgb) => {
+      const g = ctx.createLinearGradient(0, 0, 0, 260);
+      g.addColorStop(0, `rgba(${rgb}, 0.22)`);
+      g.addColorStop(1, `rgba(${rgb}, 0)`);
+      return g;
+    };
 
-      const lcGradient = ctx.createLinearGradient(0, 0, 0, 400);
-      lcGradient.addColorStop(0, "rgba(34, 197, 94, 0.7)");
-      lcGradient.addColorStop(1, "rgba(34, 197, 94, 0)");
+    const datasets = [
+      series.cf.length > 0 && {
+        label: "Codeforces",
+        data: series.cf,
+        fill: true,
+        backgroundColor: fill("29, 185, 84"),
+        borderColor: "#1DB954",
+        borderWidth: 2,
+        pointRadius: 0,
+        pointHoverRadius: 4,
+        tension: 0.3,
+      },
+      series.lc.length > 0 && {
+        label: "LeetCode",
+        data: series.lc,
+        fill: true,
+        backgroundColor: fill("245, 247, 245"),
+        borderColor: "rgba(245, 247, 245, 0.85)",
+        borderWidth: 2,
+        pointRadius: 0,
+        pointHoverRadius: 4,
+        tension: 0.3,
+      },
+    ].filter(Boolean);
 
-      const cfGradient = ctx.createLinearGradient(0, 0, 0, 400);
-      cfGradient.addColorStop(0, "rgba(16, 185, 129, 0.7)");
-      cfGradient.addColorStop(1, "rgba(16, 185, 129, 0)");
+    const values = [...series.lc, ...series.cf].map((p) => p.y);
+    const lo = Math.min(...values);
+    const hi = Math.max(...values);
 
-      const labels = lcDates.length > cfDates.length ? lcDates : cfDates;
-
-      const chartData = {
-        labels,
-        datasets: [
-          lcRatings.length > 0 && {
-            label: "LeetCode Rating",
-            data: lcRatings,
-            fill: true,
-            backgroundColor: lcGradient,
-            borderColor: "rgba(34, 197, 94, 1)",
-            borderWidth: 2,
-            tension: 0.4,
-          },
-          cfRatings.length > 0 && {
-            label: "Codeforces Rating",
-            data: cfRatings,
-            fill: true,
-            backgroundColor: cfGradient,
-            borderColor: "rgba(16, 185, 129, 1)",
-            borderWidth: 2,
-            tension: 0.4,
-          },
-        ].filter(Boolean), // Filters out any empty datasets
-      };
-
-      const chartOptions = {
+    const chart = new Chart(ctx, {
+      type: "line",
+      data: { datasets },
+      options: {
         responsive: true,
-        maintainAspectRatio: true,
+        maintainAspectRatio: false,
+        interaction: { mode: "nearest", intersect: false },
         plugins: {
-          tooltip: {
-            callbacks: {
-              label: (tooltipItem) =>
-                `${tooltipItem.dataset.label}: ${tooltipItem.raw}`,
-            },
-          },
           legend: {
             display: true,
-            labels: {
-              color: "#22c55e",
-              font: {
-                family: "ui-monospace, monospace",
-                size: 12,
-              },
+            align: "end",
+            labels: { color: "rgba(245, 247, 245, 0.62)", boxWidth: 10, boxHeight: 10, font: { family: MONO, size: 11 } },
+          },
+          tooltip: {
+            backgroundColor: "#0E100F",
+            borderColor: "rgba(245, 247, 245, 0.18)",
+            borderWidth: 1,
+            titleFont: { family: MONO, size: 11 },
+            bodyFont: { family: MONO, size: 12 },
+            callbacks: {
+              title: (items) =>
+                new Date(items[0].parsed.x).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }),
+              label: (item) => `${item.dataset.label}: ${item.parsed.y}`,
             },
           },
         },
         scales: {
           x: {
-            display: false,
+            type: "linear",
+            bounds: "data",
+            min: Math.min(...[...series.lc, ...series.cf].map((p) => p.x)),
+            max: Math.max(...[...series.lc, ...series.cf].map((p) => p.x)),
+            grid: { display: false },
+            ticks: {
+              color: "rgba(245, 247, 245, 0.38)",
+              font: { family: MONO, size: 10 },
+              maxTicksLimit: 6,
+              callback: (v) => new Date(v).toLocaleDateString("en-GB", { month: "short", year: "2-digit" }),
+            },
           },
           y: {
-            title: {
-              display: true,
-              text: "Rating",
-              color: "#71717a",
-              font: {
-                family: "ui-monospace, monospace",
-                size: 12,
-              },
-            },
-            ticks: {
-              color: "#71717a",
-              font: {
-                family: "ui-monospace, monospace",
-              },
-            },
-            grid: {
-              color: "rgba(255, 255, 255, 0.05)",
-            },
-            min:
-              Math.min(
-                ...lcRatings.concat(cfRatings).filter((v) => v != null)
-              ) ===
-                Math.max(...lcRatings.concat(cfRatings).filter((v) => v != null))
-                ? 0
-                : Math.min(
-                  ...lcRatings.concat(cfRatings).filter((v) => v != null)
-                ),
-            max:
-              Math.max(
-                ...lcRatings.concat(cfRatings).filter((v) => v != null)
-              ) + 300,
-
+            suggestedMin: lo === hi ? 0 : Math.max(0, lo - 100),
+            suggestedMax: hi + 150,
+            ticks: { color: "rgba(245, 247, 245, 0.38)", font: { family: MONO, size: 10 } },
+            grid: { color: "rgba(245, 247, 245, 0.06)" },
+            border: { display: false },
           },
         },
-      };
-
-      const myChart = new Chart(ctx, {
-        type: "line",
-        data: chartData,
-        options: chartOptions,
-      });
-
-      return () => myChart.destroy();
-    }
-  }, [lcRatings, cfRatings, lcDates, cfDates]);
+      },
+    });
+    return () => chart.destroy();
+  }, [series, hasData]);
 
   return (
-    <div
-      style={{
-        width: "100%",
-        maxWidth: 600,
-        margin: "0 auto",
-        textAlign: "start",
-        overflow: "hidden",
-        height: "100%",
-      }}
-    >
-      <div>
-        <p className="text-sm font-mono text-white font-semibold flex items-center gap-2">
-          <span className="w-1 h-4 bg-matrix-200" />
-          Contests Rating
-        </p>
-        <p className="text-zinc-500 mt-2 font-mono text-xs">
-          {data.contestsData?.leetCodeContestsData?.length === 0 &&
-            data.contestsData?.codeForcesContestsData?.length === 0 &&
-            "No Contests Data"}
-        </p>
+    <div>
+      <div className="pf-card__head">
+        <h3 className="pf-card__title">Contest rating</h3>
       </div>
-      {(data.contestsData?.leetCodeContestsData?.length > 0 ||
-        data.contestsData?.codeForcesContestsData?.length > 0) && (
-          <div style={{ width: "100%" }}>
-            <canvas ref={chartRef}></canvas>
-          </div>
-        )}
+      {hasData ? (
+        <div className="pf-chart">
+          <canvas ref={chartRef} />
+        </div>
+      ) : (
+        <p className="pf-card__sub">No rated contests yet.</p>
+      )}
     </div>
   );
 };

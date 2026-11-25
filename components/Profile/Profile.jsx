@@ -1,16 +1,23 @@
 "use client";
 import React from "react";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import MainLayout from "./MainLayout";
 import ProfileSidebar from "./ProfileSidebar";
 
 function Profile({ data }) {
   return (
-    <div className="px-8 py-12 flex gap-4 bg-background min-h-screen">
-      <div className="w-[400px] p-4">
-        <ProfileSidebar data={data}/>
-      </div>
-      <div className="w-full p-4">
-        <MainLayout data={data}/>
+    <div className="container page">
+      <Link href="/leaderboard" className="link-arrow" style={{ color: "var(--fg-dim)", marginBottom: 28 }}>
+        <ArrowLeft /> Leaderboard
+      </Link>
+      <div className="pf">
+        <aside className="pf__side">
+          <ProfileSidebar data={data} />
+        </aside>
+        <div className="pf__main">
+          <MainLayout data={data} />
+        </div>
       </div>
     </div>
   );

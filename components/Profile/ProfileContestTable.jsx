@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const ProfileContestTable = ({ data }) => {
   const [contests, setContests] = useState([]);
@@ -9,16 +9,15 @@ const ProfileContestTable = ({ data }) => {
     setContests(data.mergedContests);
   }, [data])
 
-  const sortedContests = contests.sort((a, b) => b.startTime - a.startTime);
-
-  const formatDate = (timestamp) => {
-    const date = new Date(timestamp * 1000);
-    return date.toLocaleDateString();
-  };
+  const sortedContests = [...contests].sort((a, b) => b.startTime - a.startTime);
+  const formatDate = (timestamp) =>
+    timestamp
+      ? new Date(timestamp * 1000).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })
+      : "-";
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
-  const totalPages = Math.ceil(contests.length / itemsPerPage);
+  const totalPages = Math.max(1, Math.ceil(contests.length / itemsPerPage));
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -44,105 +43,70 @@ const ProfileContestTable = ({ data }) => {
 
   // console.log(currentContests);
 
+  if (!contests || contests.length === 0) {
+    return <p className="pf-card__sub">No contests played yet.</p>;
+  }
+
   return (
     <div>
-      {!contests || contests.length !== 0 ? (
-        <>
-          <table className="w-full text-left border-separate border-spacing-0">
-            <thead>
-              <tr className="bg-zinc-900 border-b border-white/10">
-                <th className="p-3 text-sm font-mono font-medium text-matrix-200">Contest</th>
-                <th className="p-3 text-sm font-mono font-medium text-matrix-200">Date</th>
-                <th className="p-3 text-sm font-mono font-medium text-matrix-200">Rank</th>
-                <th className="p-3 text-sm font-mono font-medium text-matrix-200">Solved</th>
+      <div className="table-wrap pf-table">
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>Contest</th>
+              <th>Date</th>
+              <th className="is-right">Rank</th>
+              <th className="is-right">Solved</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentContests.map((contest, index) => (
+              <tr key={`${contest.platform}-${contest.contestId || contest.contestName}-${index}`}>
+                <td>
+                  <div className="person">
+                    <Image
+                      src={contest.platform === "LeetCode" ? "/svgs/lc.svg" : "/svgs/cf.svg"}
+                      width={18}
+                      height={18}
+                      alt={contest.platform}
+                    />
+                    <a
+                      href={
+                        contest.platform === "LeetCode"
+                          ? `https://leetcode.com/contest/${formatContestName(contest.contestName)}`
+                          : `https://codeforces.com/contest/${contest.contestId}`
+                      }
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{ fontWeight: 500 }}
+                    >
+                      {contest.contestName}
+                    </a>
+                  </div>
+                </td>
+                <td className="num is-dim" style={{ whiteSpace: "nowrap", fontSize: "0.8rem" }}>
+                  {formatDate(contest.startTime)}
+                </td>
+                <td className="num is-right">{contest.rank ?? "-"}</td>
+                <td className="num is-right" style={{ color: "var(--accent)" }}>
+                  {contest.problemsSolved ?? 0}
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {currentContests.map((contest, index) => (
-                <tr
-                  key={index}
-                  className={`border-b border-white/5 transition-all hover:bg-zinc-800/30 ${index % 2 === 0 ? "bg-black/20" : "bg-zinc-900/20"
-                    }`}
-                >
-                  <td className="py-3 px-3 text-sm">
-                    <div className="flex gap-2 items-center">
-                      {contest.platform === "LeetCode" ? (
-                        <Image
-                          src="/svgs/lc.svg"
-                          width={20}
-                          height={20}
-                          className="w-5 h-5"
-                          alt="LeetCode"
-                        />
-                      ) : (
-                        <Image
-                          src="/svgs/cf.svg"
-                          width={20}
-                          height={20}
-                          className="w-5 h-5"
-                          alt="Codeforces"
-                        />
-                      )}
-                      {contest.platform === "LeetCode" ? (
-                        <Link
-                          href={`https://leetcode.com/contest/${formatContestName(contest.contestName)}`}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-zinc-300 hover:text-matrix-200 transition-colors"
-                        >
-                          <p>{contest.contestName}</p>
-                        </Link>
-                      ) : (
-                        <Link
-                          href={`https://codeforces.com/contest/${contest.contestId}`}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-zinc-300 hover:text-matrix-200 transition-colors"
-                        >
-                          <p>{contest.contestName}</p>
-                        </Link>
-                      )}
-                    </div>
-                  </td>
-                  <td className="py-3 px-3 text-sm text-zinc-400 font-mono">
-                    {formatDate(contest.startTime)}
-                  </td>
-                  <td className="py-3 px-3 text-sm text-zinc-400 font-mono">{contest.rank}</td>
-                  <td className="py-3 px-3 text-sm text-matrix-200 font-mono font-bold">
-                    {contest.problemsSolved ?? 0}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          <div className="flex justify-between items-center mt-4">
-            <button
-              onClick={handlePreviousPage}
-              disabled={currentPage === 1}
-              className="px-4 py-2 text-sm font-mono bg-zinc-900/50 border border-white/10 rounded-lg text-zinc-300 hover:border-matrix-200/40 hover:text-matrix-200 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-            >
-              ← Previous
-            </button>
-
-            <span className="text-sm text-zinc-400 font-mono">
-              Page {currentPage} of {totalPages}
-            </span>
-
-            <button
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-              className="px-4 py-2 text-sm font-mono bg-zinc-900/50 border border-white/10 rounded-lg text-zinc-300 hover:border-matrix-200/40 hover:text-matrix-200 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-            >
-              Next →
-            </button>
-          </div>
-        </>
-      ) : (
-        <div className="text-center py-8">
-          <p className="text-zinc-400 font-mono">No Records Found</p>
-        </div>
-      )}
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="pf-pager">
+        <button onClick={handlePreviousPage} disabled={currentPage === 1} className="icon-btn icon-btn--sm" aria-label="Newer contests">
+          <ChevronLeft />
+        </button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button onClick={handleNextPage} disabled={currentPage === totalPages} className="icon-btn icon-btn--sm" aria-label="Older contests">
+          <ChevronRight />
+        </button>
+      </div>
     </div>
   );
 };

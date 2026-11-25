@@ -51,8 +51,8 @@ const DoughnutChart = ({ data }) => {
           {
             label: "DSA Progress",
             data: [easy, medium, hard],
-            backgroundColor: ["#28a745", "#fd7e14", "#dc3545"], // Emerald variations
-            borderColor: "#18181b", // Dark zinc border
+            backgroundColor: ["#1DB954", "#8FDCAA", "#F5F7F5"],
+            borderColor: "#151817",
             borderWidth: 2,
           },
         ],
@@ -70,30 +70,25 @@ const DoughnutChart = ({ data }) => {
 
   return (
     <>
-      <div className="relative w-fit h-fit">
+      <div className="pf-donut__ring">
         <canvas ref={chartRef} width="30" height="30" className="doughnutPie" />
-        <p className="absolute inset-0 flex justify-center items-center text-3xl font-mono font-bold text-matrix-200">
+        <p className="pf-donut__total">
           {total}
+          <small>solved</small>
         </p>
       </div>
-      <div className="w-full flex flex-col justify-center gap-2">
+      <div className="pf-donut__legend">
         {[
-          { label: "Easy", value: easy, color: "#28a745" },   
-          { label: "Medium", value: medium, color: "#fd7e14" }, 
-          { label: "Hard", value: hard, color: "#dc3545" },
+          { label: "Easy", value: easy, color: "#1DB954" },
+          { label: "Medium", value: medium, color: "#8FDCAA" },
+          { label: "Hard", value: hard, color: "#F5F7F5" },
         ].map((item, index) => (
-          <div
-            key={index}
-            className="flex justify-between w-full bg-zinc-900/50 border border-white/10 px-3 py-2 rounded-md hover:border-matrix-200/40 transition-all"
-          >
-            <div className="flex items-center gap-2">
-              <div
-                className="w-3 h-3 rounded-sm"
-                style={{ backgroundColor: item.color }}
-              />
-              <p className="text-sm text-zinc-300 font-medium">{item.label}</p>
-            </div>
-            <p className="text-sm font-mono font-bold text-white">{item.value}</p>
+          <div key={index} className="pf-donut__row">
+            <span className="pf-donut__key">
+              <i style={{ backgroundColor: item.color }} />
+              {item.label}
+            </span>
+            <span className="pf-donut__val">{item.value}</span>
           </div>
         ))}
       </div>
