@@ -21,10 +21,10 @@ export async function GET(req) {
         const users = JSON.parse(data);
 
         userMapping = Object.fromEntries(
-            Object.values(users).map((user) => [user.cf_username, user.name])
+            Object.values(users).map((user) => [user.cf_username.toLowerCase(), user.name])
         );
         userRefMapping = Object.fromEntries(
-            Object.entries(users).map(([key, user]) => [user.cf_username, key])
+            Object.entries(users).map(([key, user]) => [user.cf_username.toLowerCase(), key])
         );
     } catch (error) {
         console.error("Error reading JSON file:", error);
@@ -43,7 +43,7 @@ export async function GET(req) {
 
             for (const row of standings) {
                 const handle = row.party.members[0].handle;
-                if (userMapping[handle]) {
+                if (userMapping[handle.toLowerCase()]) {
                 const type = row.party.participantType;
 
                 if (!uniqueMap.has(handle)) {
@@ -60,8 +60,8 @@ export async function GET(req) {
             }
             const formattedData = Array.from(uniqueMap.values()).map((row) => {
                 const handle = row.party.members[0].handle;
-                const userName = userMapping[handle] || "Unknown";
-                const ref = userRefMapping[handle] || "Unknown";
+                const userName = userMapping[handle.toLowerCase()] || "Unknown";
+                const ref = userRefMapping[handle.toLowerCase()] || "";
 
                 return {
                     name: userName,
