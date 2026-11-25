@@ -463,5 +463,834 @@
         "url": "https://codeforces.com/problemset/problem/1986/F"
       }
     ]
+  },
+  {
+    "date": "2026-11-15",
+    "problems": [
+      {
+        "slot": 1,
+        "id": "2002B",
+        "name": "Removals Game",
+        "rating": 1000,
+        "tags": [
+          "constructive algorithms",
+          "games"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2002/B"
+      },
+      {
+        "slot": 2,
+        "id": "402A",
+        "name": "Nuts",
+        "rating": 1100,
+        "tags": [
+          "greedy",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/402/A"
+      },
+      {
+        "slot": 3,
+        "id": "221B",
+        "name": "Little Elephant and Numbers",
+        "rating": 1300,
+        "tags": [
+          "implementation"
+        ],
+        "url": "https://codeforces.com/problemset/problem/221/B"
+      },
+      {
+        "slot": 4,
+        "id": "1294D",
+        "name": "MEX maximizing",
+        "rating": 1600,
+        "tags": [
+          "data structures",
+          "greedy",
+          "implementation",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1294/D"
+      },
+      {
+        "slot": 5,
+        "id": "294B",
+        "name": "Shaass and Bookshelf",
+        "rating": 1700,
+        "tags": [
+          "dp",
+          "greedy"
+        ],
+        "url": "https://codeforces.com/problemset/problem/294/B"
+      },
+      {
+        "slot": 6,
+        "id": "600C",
+        "name": "Make Palindrome",
+        "rating": 1800,
+        "tags": [
+          "constructive algorithms",
+          "greedy",
+          "strings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/600/C"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-16",
+    "problems": [
+      {
+        "slot": 1,
+        "id": "746B",
+        "name": "Decoding",
+        "rating": 900,
+        "tags": [
+          "implementation",
+          "strings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/746/B"
+      },
+      {
+        "slot": 2,
+        "id": "363B",
+        "name": "Fence",
+        "rating": 1100,
+        "tags": [
+          "brute force",
+          "dp"
+        ],
+        "url": "https://codeforces.com/problemset/problem/363/B"
+      },
+      {
+        "slot": 3,
+        "id": "352B",
+        "name": "Jeff and Periods",
+        "rating": 1300,
+        "tags": [
+          "implementation",
+          "sortings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/352/B"
+      },
+      {
+        "slot": 4,
+        "id": "1698D",
+        "name": "Fixed Point Guessing",
+        "rating": 1600,
+        "tags": [
+          "binary search",
+          "constructive algorithms",
+          "interactive"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1698/D"
+      },
+      {
+        "slot": 5,
+        "id": "1250J",
+        "name": "The Parade",
+        "rating": 1800,
+        "tags": [
+          "binary search",
+          "greedy"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1250/J"
+      },
+      {
+        "slot": 6,
+        "id": "1861D",
+        "name": "Sorting By Multiplication",
+        "rating": 1800,
+        "tags": [
+          "dp",
+          "greedy"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1861/D"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-17",
+    "problems": [
+      {
+        "slot": 1,
+        "id": "1914A",
+        "name": "Problemsolving Log",
+        "rating": 800,
+        "tags": [
+          "implementation",
+          "strings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1914/A"
+      },
+      {
+        "slot": 2,
+        "id": "1941B",
+        "name": "Rudolf and 121",
+        "rating": 1000,
+        "tags": [
+          "brute force",
+          "dp",
+          "greedy",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1941/B"
+      },
+      {
+        "slot": 3,
+        "id": "1408B",
+        "name": "Arrays Sum",
+        "rating": 1400,
+        "tags": [
+          "constructive algorithms",
+          "greedy",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1408/B"
+      },
+      {
+        "slot": 4,
+        "id": "350C",
+        "name": "Bombs",
+        "rating": 1600,
+        "tags": [
+          "greedy",
+          "implementation",
+          "sortings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/350/C"
+      },
+      {
+        "slot": 5,
+        "id": "1015D",
+        "name": "Walking Between Houses",
+        "rating": 1600,
+        "tags": [
+          "constructive algorithms",
+          "greedy"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1015/D"
+      },
+      {
+        "slot": 6,
+        "id": "986B",
+        "name": "Petr and Permutations",
+        "rating": 1800,
+        "tags": [
+          "combinatorics",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/986/B"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-18",
+    "problems": [
+      {
+        "slot": 1,
+        "id": "2057A",
+        "name": "MEX Table",
+        "rating": 800,
+        "tags": [
+          "constructive algorithms",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2057/A"
+      },
+      {
+        "slot": 2,
+        "id": "230A",
+        "name": "Dragons",
+        "rating": 1000,
+        "tags": [
+          "greedy",
+          "sortings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/230/A"
+      },
+      {
+        "slot": 3,
+        "id": "955B",
+        "name": "Not simply beatiful strings",
+        "rating": 1400,
+        "tags": [
+          "implementation"
+        ],
+        "url": "https://codeforces.com/problemset/problem/955/B"
+      },
+      {
+        "slot": 4,
+        "id": "1437D",
+        "name": "Minimal Height Tree",
+        "rating": 1600,
+        "tags": [
+          "graphs",
+          "greedy",
+          "shortest paths",
+          "trees"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1437/D"
+      },
+      {
+        "slot": 5,
+        "id": "1478C",
+        "name": "Nezzar and Symmetric Array",
+        "rating": 1700,
+        "tags": [
+          "implementation",
+          "math",
+          "sortings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1478/C"
+      },
+      {
+        "slot": 6,
+        "id": "1200D",
+        "name": "White Lines",
+        "rating": 1900,
+        "tags": [
+          "brute force",
+          "data structures",
+          "dp",
+          "implementation",
+          "two pointers"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1200/D"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-19",
+    "problems": [
+      {
+        "slot": 1,
+        "id": "975A",
+        "name": "Aramic script",
+        "rating": 900,
+        "tags": [
+          "implementation",
+          "strings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/975/A"
+      },
+      {
+        "slot": 2,
+        "id": "478A",
+        "name": "Initial Bet",
+        "rating": 1100,
+        "tags": [
+          "implementation"
+        ],
+        "url": "https://codeforces.com/problemset/problem/478/A"
+      },
+      {
+        "slot": 3,
+        "id": "1006C",
+        "name": "Three Parts of the Array",
+        "rating": 1200,
+        "tags": [
+          "binary search",
+          "data structures",
+          "two pointers"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1006/C"
+      },
+      {
+        "slot": 4,
+        "id": "689A",
+        "name": "Mike and Cellphone",
+        "rating": 1400,
+        "tags": [
+          "brute force",
+          "constructive algorithms",
+          "implementation"
+        ],
+        "url": "https://codeforces.com/problemset/problem/689/A"
+      },
+      {
+        "slot": 5,
+        "id": "626C",
+        "name": "Block Towers",
+        "rating": 1600,
+        "tags": [
+          "brute force",
+          "greedy",
+          "math",
+          "number theory"
+        ],
+        "url": "https://codeforces.com/problemset/problem/626/C"
+      },
+      {
+        "slot": 6,
+        "id": "926E",
+        "name": "Merge Equal Elements",
+        "rating": 1900,
+        "tags": [
+          "constructive algorithms",
+          "data structures"
+        ],
+        "url": "https://codeforces.com/problemset/problem/926/E"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-20",
+    "problems": [
+      {
+        "slot": 1,
+        "id": "903A",
+        "name": "Hungry Student Problem",
+        "rating": 900,
+        "tags": [
+          "greedy",
+          "implementation"
+        ],
+        "url": "https://codeforces.com/problemset/problem/903/A"
+      },
+      {
+        "slot": 2,
+        "id": "1008B",
+        "name": "Turn the Rectangles",
+        "rating": 1000,
+        "tags": [
+          "greedy",
+          "sortings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1008/B"
+      },
+      {
+        "slot": 3,
+        "id": "1108D",
+        "name": "Diverse Garland",
+        "rating": 1400,
+        "tags": [
+          "constructive algorithms",
+          "dp",
+          "greedy"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1108/D"
+      },
+      {
+        "slot": 4,
+        "id": "2181B",
+        "name": "Battle of Arrays",
+        "rating": 1400,
+        "tags": [
+          "data structures",
+          "games",
+          "greedy"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2181/B"
+      },
+      {
+        "slot": 5,
+        "id": "1946C",
+        "name": "Tree Cutting",
+        "rating": 1600,
+        "tags": [
+          "binary search",
+          "dp",
+          "greedy",
+          "implementation",
+          "trees"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1946/C"
+      },
+      {
+        "slot": 6,
+        "id": "2053E",
+        "name": "Resourceful Caterpillar Sequence",
+        "rating": 1900,
+        "tags": [
+          "dfs and similar",
+          "dp",
+          "games",
+          "graphs",
+          "greedy",
+          "trees"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2053/E"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-21",
+    "problems": [
+      {
+        "slot": 1,
+        "id": "2128A",
+        "name": "Recycling Center",
+        "rating": 800,
+        "tags": [
+          "greedy",
+          "sortings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2128/A"
+      },
+      {
+        "slot": 2,
+        "id": "2252B",
+        "name": "Always Changing",
+        "rating": 1100,
+        "tags": [
+          "dp",
+          "greedy",
+          "math",
+          "strings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2252/B"
+      },
+      {
+        "slot": 3,
+        "id": "469B",
+        "name": "Chat Online",
+        "rating": 1300,
+        "tags": [
+          "implementation"
+        ],
+        "url": "https://codeforces.com/problemset/problem/469/B"
+      },
+      {
+        "slot": 4,
+        "id": "703B",
+        "name": "Mishka and trip",
+        "rating": 1400,
+        "tags": [
+          "implementation",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/703/B"
+      },
+      {
+        "slot": 5,
+        "id": "1511D",
+        "name": "Min Cost String",
+        "rating": 1600,
+        "tags": [
+          "brute force",
+          "constructive algorithms",
+          "graphs",
+          "greedy",
+          "strings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1511/D"
+      },
+      {
+        "slot": 6,
+        "id": "2180D",
+        "name": "Insolvable Disks",
+        "rating": 2000,
+        "tags": [
+          "data structures",
+          "dp",
+          "greedy",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2180/D"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-22",
+    "problems": [
+      {
+        "slot": 1,
+        "id": "1610A",
+        "name": "Anti Light's Cell Guessing",
+        "rating": 900,
+        "tags": [
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1610/A"
+      },
+      {
+        "slot": 2,
+        "id": "1073A",
+        "name": "Diverse Substring",
+        "rating": 1000,
+        "tags": [
+          "implementation",
+          "strings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1073/A"
+      },
+      {
+        "slot": 3,
+        "id": "1487B",
+        "name": "Cat Cycle",
+        "rating": 1200,
+        "tags": [
+          "math",
+          "number theory"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1487/B"
+      },
+      {
+        "slot": 4,
+        "id": "243A",
+        "name": "The Brand New Function",
+        "rating": 1600,
+        "tags": [
+          "bitmasks"
+        ],
+        "url": "https://codeforces.com/problemset/problem/243/A"
+      },
+      {
+        "slot": 5,
+        "id": "711C",
+        "name": "Coloring Trees",
+        "rating": 1700,
+        "tags": [
+          "dp"
+        ],
+        "url": "https://codeforces.com/problemset/problem/711/C"
+      },
+      {
+        "slot": 6,
+        "id": "1202D",
+        "name": "Print a 1337-string...",
+        "rating": 1900,
+        "tags": [
+          "combinatorics",
+          "constructive algorithms",
+          "math",
+          "strings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1202/D"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-23",
+    "problems": [
+      {
+        "slot": 1,
+        "id": "2119A",
+        "name": "Add or XOR",
+        "rating": 800,
+        "tags": [
+          "bitmasks",
+          "greedy",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2119/A"
+      },
+      {
+        "slot": 2,
+        "id": "2003C",
+        "name": "Turtle and Good Pairs",
+        "rating": 1200,
+        "tags": [
+          "constructive algorithms",
+          "greedy",
+          "sortings",
+          "strings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2003/C"
+      },
+      {
+        "slot": 3,
+        "id": "1307B",
+        "name": "Cow and Friend",
+        "rating": 1300,
+        "tags": [
+          "geometry",
+          "greedy",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1307/B"
+      },
+      {
+        "slot": 4,
+        "id": "388A",
+        "name": "Fox and Box Accumulation",
+        "rating": 1400,
+        "tags": [
+          "greedy",
+          "sortings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/388/A"
+      },
+      {
+        "slot": 5,
+        "id": "1954D",
+        "name": "Colored Balls",
+        "rating": 1800,
+        "tags": [
+          "combinatorics",
+          "dp",
+          "math",
+          "sortings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1954/D"
+      },
+      {
+        "slot": 6,
+        "id": "2246D",
+        "name": "diss_quack and Array Game",
+        "rating": 1900,
+        "tags": [
+          "bitmasks",
+          "brute force",
+          "games",
+          "greedy"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2246/D"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-24",
+    "problems": [
+      {
+        "slot": 1,
+        "id": "2065A",
+        "name": "Skibidus and Amog'u",
+        "rating": 800,
+        "tags": [
+          "brute force",
+          "constructive algorithms",
+          "greedy",
+          "implementation",
+          "strings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2065/A"
+      },
+      {
+        "slot": 2,
+        "id": "178A1",
+        "name": "Educational Game",
+        "rating": 1000,
+        "tags": [],
+        "url": "https://codeforces.com/problemset/problem/178/A1"
+      },
+      {
+        "slot": 3,
+        "id": "1037B",
+        "name": "Reach Median",
+        "rating": 1300,
+        "tags": [
+          "greedy"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1037/B"
+      },
+      {
+        "slot": 4,
+        "id": "1189C",
+        "name": "Candies!",
+        "rating": 1400,
+        "tags": [
+          "data structures",
+          "dp",
+          "implementation",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1189/C"
+      },
+      {
+        "slot": 5,
+        "id": "1731C",
+        "name": "Even Subarrays",
+        "rating": 1700,
+        "tags": [
+          "bitmasks",
+          "brute force",
+          "hashing",
+          "math",
+          "number theory"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1731/C"
+      },
+      {
+        "slot": 6,
+        "id": "388B",
+        "name": "Fox and Minimal path",
+        "rating": 1900,
+        "tags": [
+          "bitmasks",
+          "constructive algorithms",
+          "graphs",
+          "implementation",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/388/B"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-25",
+    "problems": [
+      {
+        "slot": 1,
+        "id": "1918B",
+        "name": "Minimize Inversions",
+        "rating": 900,
+        "tags": [
+          "constructive algorithms",
+          "data structures",
+          "greedy",
+          "implementation",
+          "sortings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1918/B"
+      },
+      {
+        "slot": 2,
+        "id": "1584B",
+        "name": "Coloring Rectangles",
+        "rating": 1000,
+        "tags": [
+          "greedy",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1584/B"
+      },
+      {
+        "slot": 3,
+        "id": "544B",
+        "name": "Sea and Islands",
+        "rating": 1400,
+        "tags": [
+          "constructive algorithms",
+          "implementation"
+        ],
+        "url": "https://codeforces.com/problemset/problem/544/B"
+      },
+      {
+        "slot": 4,
+        "id": "1054C",
+        "name": "Candies Distribution",
+        "rating": 1500,
+        "tags": [
+          "constructive algorithms",
+          "implementation"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1054/C"
+      },
+      {
+        "slot": 5,
+        "id": "254C",
+        "name": "Anagram",
+        "rating": 1800,
+        "tags": [
+          "greedy",
+          "strings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/254/C"
+      },
+      {
+        "slot": 6,
+        "id": "2033F",
+        "name": "Kosuke's Sloth",
+        "rating": 1800,
+        "tags": [
+          "brute force",
+          "math",
+          "number theory"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2033/F"
+      }
+    ]
   }
 ]
