@@ -2,8 +2,71 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Swords, Trophy, Flame, Shield, Timer, Sparkles, AlertCircle, ArrowRight, Clock } from "lucide-react";
+import { Swords, AlertCircle, ArrowRight, LoaderCircle } from "lucide-react";
 import axios from "axios";
+
+const TAGS = [
+  { value: "all", label: "Any topic" },
+  { value: "implementation", label: "Implementation" },
+  { value: "greedy", label: "Greedy" },
+  { value: "math", label: "Math" },
+  { value: "dp", label: "Dynamic programming" },
+  { value: "data structures", label: "Data structures" },
+  { value: "brute force", label: "Brute force" },
+  { value: "constructive algorithms", label: "Constructive algorithms" },
+  { value: "sortings", label: "Sorting" },
+  { value: "two pointers", label: "Two pointers" },
+  { value: "binary search", label: "Binary search" },
+];
+
+const RULES = [
+  "Problems are picked so that neither player has solved them before.",
+  "They stay locked behind a shared countdown until the match starts.",
+  "Solve them on Codeforces during the match window.",
+  "1 point per problem, plus 0.5 to whoever solves it first.",
+  "No database: the match is a signed link, checked against the Codeforces API.",
+];
+
+function PlayerCard({ n, role, value, onChange, members }) {
+  return (
+    <div className={`panel panel--pad ar-player${n === 1 ? " ar-player--one" : ""}`}>
+      <div className="ar-player__head">
+        <span className="ar-player__num">P{n}</span>
+        <span className="label">{role}</span>
+      </div>
+      <label className="label" htmlFor={`p${n}`} style={{ marginBottom: 8 }}>
+        Codeforces handle
+      </label>
+      <input
+        id={`p${n}`}
+        type="text"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder="e.g. tourist"
+        className="field"
+        autoComplete="off"
+        spellCheck={false}
+        required
+      />
+      {members.length > 0 && (
+        <select
+          onChange={(e) => e.target.value && onChange(e.target.value)}
+          value={members.some((m) => m.cf_username === value) ? value : ""}
+          className="field"
+          style={{ marginTop: 10 }}
+          aria-label={`Pick player ${n} from the club`}
+        >
+          <option value="">Or pick from the club</option>
+          {members.map((m) => (
+            <option key={m.id} value={m.cf_username}>
+              {m.name} ({m.cf_username}) · {m.year}
+            </option>
+          ))}
+        </select>
+      )}
+    </div>
+  );
+}
 
 export default function ArenaLobby() {
   const router = useRouter();
@@ -18,23 +81,10 @@ export default function ArenaLobby() {
   const [tag, setTag] = useState("all");
   const [count, setCount] = useState(3);
   const [durationMinutes, setDurationMinutes] = useState(45);
-  const [startDelaySeconds, setStartDelaySeconds] = useState(60); // Default 1 min to allow sharing link
+  const [startDelaySeconds, setStartDelaySeconds] = useState(60); // 1 min, time to share the link
 
   const [isGenerating, setIsGenerating] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-
-  const tags = [
-    { value: "all", label: "Any Topic" },
-    { value: "implementation", label: "Implementation" },
-    { value: "greedy", label: "Greedy" },
-    { value: "math", label: "Math" },
-    { value: "dp", label: "Dynamic Programming" },
-    { value: "data structures", label: "Data Structures" },
-    { value: "brute force", label: "Brute Force" },
-    { value: "constructive algorithms", label: "Constructive Algorithms" },
-    { value: "sortings", label: "Sorting & Two Pointers" },
-    { value: "binary search", label: "Binary Search" },
-  ];
 
   useEffect(() => {
     async function loadMembers() {
@@ -61,22 +111,19 @@ export default function ArenaLobby() {
     setErrorMsg("");
 
     if (!p1.trim() || !p2.trim()) {
-      setErrorMsg("Please select or enter handles for both players.");
+      setErrorMsg("Enter a Codeforces handle for both players.");
       return;
     }
-
     if (p1.trim().toLowerCase() === p2.trim().toLowerCase()) {
-      setErrorMsg("Player 1 and Player 2 cannot be the same handle.");
+      setErrorMsg("Player 1 and Player 2 can't be the same handle.");
       return;
     }
-
     if (Number(minRating) > Number(maxRating)) {
-      setErrorMsg("Minimum rating cannot exceed maximum rating.");
+      setErrorMsg("The minimum rating can't be higher than the maximum.");
       return;
     }
 
     setIsGenerating(true);
-
     try {
       const res = await axios.post("/api/arena/generate", {
         p1: p1.trim(),
@@ -92,216 +139,113 @@ export default function ArenaLobby() {
       if (res.data?.success && res.data?.token) {
         router.push(`/arena/match?token=${encodeURIComponent(res.data.token)}`);
       } else {
-        setErrorMsg(res.data?.error || "Could not generate match.");
+        setErrorMsg(res.data?.error || "Could not set up the match.");
+        setIsGenerating(false);
       }
     } catch (err) {
-      setErrorMsg(err.response?.data?.error || err.message || "Match generation failed.");
-    } finally {
+      setErrorMsg(err.response?.data?.error || err.message || "Could not set up the match.");
       setIsGenerating(false);
     }
   };
 
   return (
-    <div className="min-h-screen py-16 px-4 sm:px-6 lg:px-8 text-white relative overflow-hidden">
-      {/* Background glow effects */}
+    <div className="container page">
+      <header className="page-head">
+        <span className="eyebrow">1v1 Battle Arena</span>
+        <h1 className="page-title">
+          Head-to-head <span className="mark">duel.</span>
+        </h1>
+        <p className="page-lede">
+          Challenge another member to a ThemeCP-style live battle. Same problems, same clock, verdicts read straight
+          from Codeforces.
+        </p>
+      </header>
 
-      <div className="max-w-4xl mx-auto relative z-10 pt-8">
-        {/* Header */}
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-matrix-200/10 border border-matrix-200/30 text-matrix-200 text-sm font-mono mb-4">
-            <Swords className="w-4 h-4" /> 1v1 Battle Arena
-          </div>
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight font-mono">
-            HEAD-TO-HEAD <span className="text-matrix-200">DUEL</span>
-          </h1>
-          <p className="mt-3 text-zinc-400 max-w-xl mx-auto text-sm sm:text-base">
-            Challenge a CP Club member in a ThemeCP-style live battle. Real-time verdicts verified directly via Codeforces.
-          </p>
-        </div>
-
-        {/* Setup Card */}
-        <div className="glass-card rounded-2xl border border-white/10 p-6 sm:p-8 shadow-2xl">
+      <div className="ar-layout">
+        <form onSubmit={handleStartBattle} className="ar-form">
           {errorMsg && (
-            <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-              <div className="text-sm font-mono">{errorMsg}</div>
+            <div className="alert" role="alert">
+              <AlertCircle />
+              <span>{errorMsg}</span>
             </div>
           )}
 
-          <form onSubmit={handleStartBattle} className="space-y-6">
-            {/* Players Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
-              {/* VS badge */}
-              <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-zinc-900 border-2 border-matrix-200 items-center justify-center font-mono font-bold text-matrix-200 ">
-                VS
-              </div>
+          <div className="ar-players">
+            <PlayerCard n={1} role="Host" value={p1} onChange={setP1} members={members} />
+            <span className="ar-vs" aria-hidden="true">vs</span>
+            <PlayerCard n={2} role="Challenger" value={p2} onChange={setP2} members={members} />
+          </div>
 
-              {/* Player 1 */}
-              <div className="p-5 rounded-xl bg-zinc-900/60 border border-matrix-200/30 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-2 text-matrix-200 font-mono text-sm font-bold mb-3">
-                    <Shield className="w-4 h-4" /> PLAYER 1 (HOST)
-                  </div>
-                  <label className="block text-xs font-mono text-zinc-400 mb-1">Select Member or Type CF Handle</label>
-                  <input
-                    type="text"
-                    value={p1}
-                    onChange={(e) => setP1(e.target.value)}
-                    placeholder="Enter Codeforces handle"
-                    className="w-full px-4 py-2.5 rounded-lg bg-black border border-white/20 text-white font-mono focus:border-matrix-200 focus:outline-none text-sm mb-3"
-                    required
-                  />
-
-                  {members.length > 0 && (
-                    <select
-                      onChange={(e) => e.target.value && setP1(e.target.value)}
-                      value={p1}
-                      className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-white/10 text-zinc-300 font-mono text-xs focus:outline-none"
-                    >
-                      <option value="">-- Or choose from club roster --</option>
-                      {members.map((m) => (
-                        <option key={m.id} value={m.cf_username}>
-                          {m.name} ({m.cf_username}) - {m.year}
-                        </option>
-                      ))}
-                    </select>
-                  )}
-                </div>
-              </div>
-
-              {/* Player 2 */}
-              <div className="p-5 rounded-xl bg-zinc-900/60 border border-red-500/30 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-2 text-red-400 font-mono text-sm font-bold mb-3">
-                    <Flame className="w-4 h-4" /> PLAYER 2 (CHALLENGER)
-                  </div>
-                  <label className="block text-xs font-mono text-zinc-400 mb-1">Select Member or Type CF Handle</label>
-                  <input
-                    type="text"
-                    value={p2}
-                    onChange={(e) => setP2(e.target.value)}
-                    placeholder="Enter Codeforces handle"
-                    className="w-full px-4 py-2.5 rounded-lg bg-black border border-white/20 text-white font-mono focus:border-red-400 focus:outline-none text-sm mb-3"
-                    required
-                  />
-
-                  {members.length > 0 && (
-                    <select
-                      onChange={(e) => e.target.value && setP2(e.target.value)}
-                      value={p2}
-                      className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-white/10 text-zinc-300 font-mono text-xs focus:outline-none"
-                    >
-                      <option value="">-- Or choose from club roster --</option>
-                      {members.map((m) => (
-                        <option key={m.id} value={m.cf_username}>
-                          {m.name} ({m.cf_username}) - {m.year}
-                        </option>
-                      ))}
-                    </select>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Match Configurations */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
-              {/* Rating Range */}
+          <div className="panel panel--pad">
+            <p className="sub-head__title" style={{ fontSize: "1.25rem", marginBottom: 20 }}>Match settings</p>
+            <div className="ar-settings">
               <div>
-                <label className="block text-xs font-mono text-zinc-400 mb-1">Min Rating</label>
+                <label className="label" htmlFor="min-rating" style={{ marginBottom: 8 }}>Min rating</label>
                 <input
+                  id="min-rating"
                   type="number"
                   step="100"
                   min="800"
                   max="3500"
                   value={minRating}
                   onChange={(e) => setMinRating(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-zinc-900 border border-white/10 font-mono text-white text-sm"
+                  className="field"
                 />
               </div>
-
               <div>
-                <label className="block text-xs font-mono text-zinc-400 mb-1">Max Rating</label>
+                <label className="label" htmlFor="max-rating" style={{ marginBottom: 8 }}>Max rating</label>
                 <input
+                  id="max-rating"
                   type="number"
                   step="100"
                   min="800"
                   max="3500"
                   value={maxRating}
                   onChange={(e) => setMaxRating(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-zinc-900 border border-white/10 font-mono text-white text-sm"
+                  className="field"
                 />
               </div>
-
-              {/* Tag Selection */}
               <div>
-                <label className="block text-xs font-mono text-zinc-400 mb-1">Topic Tag</label>
-                <select
-                  value={tag}
-                  onChange={(e) => setTag(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-zinc-900 border border-white/10 font-mono text-white text-sm"
-                >
-                  {tags.map((t) => (
+                <label className="label" htmlFor="tag" style={{ marginBottom: 8 }}>Topic</label>
+                <select id="tag" value={tag} onChange={(e) => setTag(e.target.value)} className="field">
+                  {TAGS.map((t) => (
                     <option key={t.value} value={t.value}>
                       {t.label}
                     </option>
                   ))}
                 </select>
               </div>
-
-              {/* Duration */}
               <div>
-                <label className="block text-xs font-mono text-zinc-400 mb-1">Duration</label>
-                <select
-                  value={durationMinutes}
-                  onChange={(e) => setDurationMinutes(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-zinc-900 border border-white/10 font-mono text-white text-sm"
-                >
-                  <option value={30}>30 Minutes</option>
-                  <option value={45}>45 Minutes</option>
-                  <option value={60}>60 Minutes</option>
-                  <option value={90}>90 Minutes</option>
+                <label className="label" htmlFor="duration" style={{ marginBottom: 8 }}>Duration</label>
+                <select id="duration" value={durationMinutes} onChange={(e) => setDurationMinutes(e.target.value)} className="field">
+                  <option value={30}>30 minutes</option>
+                  <option value={45}>45 minutes</option>
+                  <option value={60}>60 minutes</option>
+                  <option value={90}>90 minutes</option>
                 </select>
               </div>
-            </div>
-
-            {/* Start Delay / Synchronized Kick-Off */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-mono text-zinc-400 mb-1 flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-matrix-200" /> Start Delay (Sync Window)
-                </label>
-                <select
-                  value={startDelaySeconds}
-                  onChange={(e) => setStartDelaySeconds(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-zinc-900 border border-white/10 font-mono text-white text-sm focus:border-matrix-200"
-                >
-                  <option value={0}>Start Immediately (0s)</option>
-                  <option value={30}>Start in 30 Seconds</option>
-                  <option value={60}>Start in 1 Minute (Recommended to share link)</option>
-                  <option value={120}>Start in 2 Minutes</option>
-                  <option value={300}>Start in 5 Minutes</option>
+              <div className="ar-settings__wide">
+                <label className="label" htmlFor="delay" style={{ marginBottom: 8 }}>Start delay</label>
+                <select id="delay" value={startDelaySeconds} onChange={(e) => setStartDelaySeconds(e.target.value)} className="field">
+                  <option value={0}>Start right away</option>
+                  <option value={30}>In 30 seconds</option>
+                  <option value={60}>In 1 minute (time to share the link)</option>
+                  <option value={120}>In 2 minutes</option>
+                  <option value={300}>In 5 minutes</option>
                 </select>
-                <span className="text-[11px] font-mono text-zinc-500 mt-1 block">
-                  Problems remain locked until this timer hits zero.
-                </span>
+                <span className="ar-hint">Problems stay locked until this runs out.</span>
               </div>
-
-              {/* Problems Count */}
-              <div>
-                <label className="block text-xs font-mono text-zinc-400 mb-1">
-                  Problems: <span className="text-matrix-200 font-bold">{count}</span>
-                </label>
-                <div className="flex gap-2">
+              <div className="ar-settings__wide">
+                <span className="label" style={{ marginBottom: 8 }}>Problems</span>
+                <div className="chips" role="radiogroup" aria-label="Number of problems">
                   {[1, 2, 3, 4, 5].map((n) => (
                     <button
                       key={n}
                       type="button"
+                      role="radio"
+                      aria-checked={count === n}
                       onClick={() => setCount(n)}
-                      className={`flex-1 py-2 font-mono text-sm rounded-lg border transition-all ${
-                        count === n
-                          ? "bg-matrix-200/20 border-matrix-200 text-matrix-200 font-bold"
-                          : "bg-zinc-900 border-white/10 text-zinc-400 hover:text-white"
-                      }`}
+                      className={`chip-btn ar-count${count === n ? " is-active" : ""}`}
                     >
                       {n}
                     </button>
@@ -309,40 +253,32 @@ export default function ArenaLobby() {
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Launch Button */}
-            <button
-              type="submit"
-              disabled={isGenerating || loadingMembers}
-              className="w-full py-4 mt-4 bg-matrix-200 hover:bg-emerald-400 text-black font-mono font-bold text-base rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50"
-            >
-              {isGenerating ? (
-                <>
-                  <Sparkles className="w-5 h-5 animate-spin" />
-                  Generating Unsolved Match Problems...
-                </>
-              ) : (
-                <>
-                  <Swords className="w-5 h-5" />
-                  Launch 1v1 Battle Arena
-                  <ArrowRight className="w-5 h-5 ml-1" />
-                </>
-              )}
-            </button>
-          </form>
-        </div>
+          <button type="submit" disabled={isGenerating || loadingMembers} className="btn btn--block ar-launch">
+            {isGenerating ? (
+              <>
+                <LoaderCircle className="ar-spin" /> Finding unsolved problems...
+              </>
+            ) : (
+              <>
+                <Swords /> Start the duel <ArrowRight />
+              </>
+            )}
+          </button>
+        </form>
 
-        {/* Rules note */}
-        <div className="mt-8 p-4 rounded-xl bg-zinc-900/40 border border-white/5 font-mono text-xs text-zinc-400 space-y-1">
-          <p className="text-zinc-300 font-bold flex items-center gap-1.5">
-            <Timer className="w-4 h-4 text-matrix-200" /> Match Rules & Live Engine:
-          </p>
-          <p>• Problems are selected dynamically so neither player has solved them before.</p>
-          <p>• Problems stay locked with a synchronized countdown until the match starts.</p>
-          <p>• Solve the problems directly on Codeforces during the match window.</p>
-          <p>• 1 point per problem solved + 0.5 bonus points to whichever player solves first.</p>
-          <p>• Zero database dependency: match state is cryptographically signed and verified via Codeforces API.</p>
-        </div>
+        <aside className="ar-rules">
+          <span className="label">How it works</span>
+          <ol className="ar-rules__list">
+            {RULES.map((rule, i) => (
+              <li key={i}>
+                <span className="ar-rules__n">{String(i + 1).padStart(2, "0")}</span>
+                {rule}
+              </li>
+            ))}
+          </ol>
+        </aside>
       </div>
     </div>
   );
