@@ -1371,5 +1371,75 @@
         "url": "https://codeforces.com/problemset/problem/1882/D"
       }
     ]
+  },
+  {
+    "date": "2026-11-27",
+    "problems": [
+      {
+        "slot": 1,
+        "id": "1333A",
+        "name": "Little Artem",
+        "rating": 1000,
+        "tags": [
+          "constructive algorithms"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1333/A"
+      },
+      {
+        "slot": 2,
+        "id": "552B",
+        "name": "Vanya and Books",
+        "rating": 1200,
+        "tags": [
+          "implementation",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/552/B"
+      },
+      {
+        "slot": 3,
+        "id": "2200D",
+        "name": "Portal",
+        "rating": 1300,
+        "tags": [
+          "greedy",
+          "sortings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2200/D"
+      },
+      {
+        "slot": 4,
+        "id": "1374E1",
+        "name": "Reading Books (easy version)",
+        "rating": 1600,
+        "tags": [
+          "data structures",
+          "greedy",
+          "sortings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1374/E1"
+      },
+      {
+        "slot": 5,
+        "id": "476C",
+        "name": "Dreamoon and Sums",
+        "rating": 1600,
+        "tags": [
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/476/C"
+      },
+      {
+        "slot": 6,
+        "id": "1148D",
+        "name": "Dirty Deeds Done Dirt Cheap",
+        "rating": 1800,
+        "tags": [
+          "greedy",
+          "sortings"
+        ],
+        "url": "https://codeforces.com/problemset/problem/1148/D"
+      }
+    ]
   }
 ]
