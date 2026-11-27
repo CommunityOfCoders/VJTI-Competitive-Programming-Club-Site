@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-27T18:33:23.847Z",
+  "updatedAt": "2026-11-27T21:33:23.679Z",
   "users": {
     "urabhay10": {
       "name": "Abhay Upadhyay",
@@ -2026,6 +2026,9 @@
         ],
         "2026-11-21": [
           "2252B"
+        ],
+        "2026-11-28": [
+          "630C"
         ]
       },
       "lateSolves": {
@@ -2033,22 +2036,22 @@
           "352B"
         ]
       },
-      "totalSolved": 9,
-      "currentStreak": 0,
+      "totalSolved": 10,
+      "currentStreak": 1,
       "longestStreak": 3,
-      "solvedToday": 0,
+      "solvedToday": 1,
       "solvedBySlot": [
         2,
-        4,
+        5,
         3,
         0,
         0,
         0
       ],
-      "lastSolvedDate": "2026-11-21",
-      "points": 9800,
-      "lastCompletedAt": "2026-11-21T16:26:30.000Z",
-      "todayCompletedAt": null
+      "lastSolvedDate": "2026-11-28",
+      "points": 10900,
+      "lastCompletedAt": "2026-11-27T19:40:35.000Z",
+      "todayCompletedAt": "2026-11-27T19:40:35.000Z"
     },
     "sejawtp": {
       "name": "Sejal Jawale",
