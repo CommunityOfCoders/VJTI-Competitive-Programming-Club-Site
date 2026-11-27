@@ -1441,5 +1441,84 @@
         "url": "https://codeforces.com/problemset/problem/1148/D"
       }
     ]
+  },
+  {
+    "date": "2026-11-28",
+    "problems": [
+      {
+        "slot": 1,
+        "id": "2043A",
+        "name": "Coin Transformation",
+        "rating": 800,
+        "tags": [
+          "brute force",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2043/A"
+      },
+      {
+        "slot": 2,
+        "id": "630C",
+        "name": "Lucky Numbers",
+        "rating": 1100,
+        "tags": [
+          "combinatorics",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/630/C"
+      },
+      {
+        "slot": 3,
+        "id": "30A",
+        "name": "Accounting",
+        "rating": 1400,
+        "tags": [
+          "brute force",
+          "math"
+        ],
+        "url": "https://codeforces.com/problemset/problem/30/A"
+      },
+      {
+        "slot": 4,
+        "id": "993A",
+        "name": "Two Squares",
+        "rating": 1600,
+        "tags": [
+          "geometry",
+          "implementation"
+        ],
+        "url": "https://codeforces.com/problemset/problem/993/A"
+      },
+      {
+        "slot": 5,
+        "id": "2063C",
+        "name": "Remove Exactly Two",
+        "rating": 1600,
+        "tags": [
+          "brute force",
+          "data structures",
+          "dfs and similar",
+          "dp",
+          "graphs",
+          "greedy",
+          "sortings",
+          "trees"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2063/C"
+      },
+      {
+        "slot": 6,
+        "id": "2041M",
+        "name": "Selection Sort",
+        "rating": 2000,
+        "tags": [
+          "binary search",
+          "data structures",
+          "greedy",
+          "two pointers"
+        ],
+        "url": "https://codeforces.com/problemset/problem/2041/M"
+      }
+    ]
   }
 ]
